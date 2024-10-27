@@ -18,6 +18,8 @@ public class UserDO {
     private String pwd;
     private String phone;
     private int status;
+//    todo 加一个不影响数据库
+    private boolean valid;
 
 //    @Override
 //    public String getAuthority() {

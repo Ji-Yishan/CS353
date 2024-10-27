@@ -2,8 +2,11 @@ package com.parttime.cs353.controller;
 
 
 
+import com.parttime.cs353.config.jwt.AuthStorage;
 import com.parttime.cs353.pojo.data.UserDO;
 import com.parttime.cs353.service.inter.UserService;
+import com.parttime.cs353.utils.JwtUtils;
+import com.parttime.cs353.utils.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,8 +47,10 @@ public class UserLogin {
     public String logins(String username, String password) {
         if (PasswordEncoder.matches(password, USER.get(username))) {
             // 模拟一个用户的数据 用户id为1  登录端为网页web  角色是admin
-            UserDO userDO=new UserDO(1,"admin",password,username,0);
-            return JwtUtils.generateTokenExpireInMinutes(userDO,100);
+            UserDO userDO=new UserDO(1,"admin",password,username,0,true);
+            String token= JwtUtils.generateTokenExpireInMinutes("admin",100);
+            AuthStorage.setUser(token,userDO);
+            return token;
         }
         return "error";
     }
@@ -54,5 +59,13 @@ public class UserLogin {
     public UserDO tokenValidate(String token) {
         return JwtUtils.checkToken(token);
     }
+
+    @GetMapping("/get/Info")
+    public String getInfo() {
+        // 从全局环境中获取用户id
+        UserDO user = AuthStorage.getUser();
+        return "用户："+user.getUid() + "，请求成功";
+    }
+
 
 }
