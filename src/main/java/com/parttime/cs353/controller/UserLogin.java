@@ -40,19 +40,19 @@ public class UserLogin {
         }
     };
 
-    @GetMapping("/logins")
-    public String logins(String username, String password) {
-        if (PasswordEncoder.matches(password, USER.get(username))) {
-            // 模拟一个用户的数据 用户id为1  登录端为网页web  角色是admin
-            UserDO userDO=new UserDO(1,"admin",password,username,0);
-            return JwtUtils.generateTokenExpireInMinutes(userDO,100);
-        }
-        return "error";
-    }
-
-    @GetMapping("/token/validate")
-    public UserDO tokenValidate(String token) {
-        return JwtUtils.checkToken(token);
-    }
+//    @GetMapping("/logins")
+//    public String logins(String username, String password) {
+//        if (PasswordEncoder.matches(password, USER.get(username))) {
+//            // 模拟一个用户的数据 用户id为1  登录端为网页web  角色是admin
+//            UserDO userDO=new UserDO(1,"admin",password,username,0);
+//            return JwtUtils.generateTokenExpireInMinutes(userDO,100);
+//        }
+//        return "error";
+//    }
+//
+//    @GetMapping("/token/validate")
+//    public UserDO tokenValidate(String token) {
+//        return JwtUtils.checkToken(token);
+//    }
 
 }
