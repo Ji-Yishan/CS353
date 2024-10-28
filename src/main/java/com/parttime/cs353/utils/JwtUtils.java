@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
@@ -25,9 +26,10 @@ import java.util.UUID;
 
 public class JwtUtils {
     private static final String JWT_PAYLOAD_USER_KEY = "user";
+    private static final String JWT_PAYLOAD_ADMIN_KEY = "admin";
     private static Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 // 暂时用这个，想换的时候再到test里面的key generater那边生成新的
-    private final static String SECRET_KEY =  Base64.getEncoder().encodeToString("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==".getBytes(StandardCharsets.UTF_8));
+//    private final static String SECRET_KEY =  Base64.getEncoder().encodeToString("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==".getBytes(StandardCharsets.UTF_8));
 
 
     private static String createJTI() {
@@ -42,20 +44,18 @@ public class JwtUtils {
      * @param expire     过期时间，单位分钟
      * @return JWT
      */
-    public static String generateTokenExpireInMinutes(String userInfo,  int expire) {
-//        public static String generateTokenExpireInMinutes(Object userInfo,  int expire) {
+    public static String generateTokenExpireInMinutes(UserDO userInfo,PrivateKey privateKey, int expire) {
         return Jwts.builder()
-                .setSubject(userInfo)
-//                .claim(JWT_PAYLOAD_USER_KEY, JsonUtils.toString(userInfo))
-                .claim(JWT_PAYLOAD_USER_KEY, userInfo)
-                .claim("type","user")
-                .claim("userId",1)
+                .setSubject(userInfo.getPhone())
+                .claim(JWT_PAYLOAD_USER_KEY, JsonUtils.toString(userInfo))
+                .claim("type",userInfo.getType())
+                .claim("userId",userInfo.getUid())
 //                .setId(createJTI())
                 .setIssuedAt(new Date())
                 .setExpiration(DateTime.now().plusMinutes(expire).toDate())
 //                去掉RSA的private key
-//                .signWith(privateKey, SignatureAlgorithm.RS256)
-                .signWith(SignatureAlgorithm.HS512,SECRET_KEY)
+                .signWith(privateKey, SignatureAlgorithm.RS256)
+//                .signWith(SignatureAlgorithm.HS512,SECRET_KEY)
                 .compact();
     }
 
@@ -67,14 +67,19 @@ public class JwtUtils {
      * @param expire     过期时间，单位秒
      * @return JWT
      */
-//    public static String generateTokenExpireInSeconds(Object userInfo, PrivateKey privateKey, int expire) {
-public static String generateTokenExpireInSeconds(String userInfo, PrivateKey privateKey, int expire) {
+public static String generateTokenExpireInSeconds(UserDO userInfo, PrivateKey privateKey, int expire) {
     return Jwts.builder()
-                .claim(JWT_PAYLOAD_USER_KEY, userInfo)
-                .setId(createJTI())
-                .setExpiration(DateTime.now().plusSeconds(expire).toDate())
-                .signWith(privateKey, SignatureAlgorithm.RS256)
-                .compact();
+            .setSubject(userInfo.getPhone())
+//                .claim(JWT_PAYLOAD_USER_KEY, JsonUtils.toString(userInfo))
+            .claim("type",userInfo.getType())
+            .claim("userId",userInfo.getUid())
+//                .setId(createJTI())
+            .setIssuedAt(new Date())
+            .setExpiration(DateTime.now().plusSeconds(expire).toDate())
+//                去掉RSA的private key
+            .signWith(privateKey, SignatureAlgorithm.RS256)
+//                .signWith(SignatureAlgorithm.HS512,SECRET_KEY)
+            .compact();
     }
 
     /**
@@ -84,9 +89,9 @@ public static String generateTokenExpireInSeconds(String userInfo, PrivateKey pr
      * @param
      * @return Jws<Claims>
      */
-    private static Jws<Claims> parserToken(String token) {
+    private static Jws<Claims> parserToken(String token, PublicKey publicKey) {
         return Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY)
+                .setSigningKey(publicKey)
                 .build()
                 .parseClaimsJws(token);
     }
@@ -98,50 +103,40 @@ public static String generateTokenExpireInSeconds(String userInfo, PrivateKey pr
      * @param
      * @return 用户信息
      */
-//    public static <T> Payload<T> getInfoFromToken(String token, Class<T> userType) {
-//        Jws<Claims> claimsJws = parserToken(token);
-//        Claims body = claimsJws.getBody();
-//        Payload<T> claims = new Payload<>();
-//        claims.setId(body.getId());
-////        claims.setUserInfo(JsonUtils.toBean(body.get(JWT_PAYLOAD_USER_KEY).toString(), userType));
-//        claims.setUserInfo(body.get(JWT_PAYLOAD_USER_KEY).toString());
-//        claims.setExpiration(body.getExpiration());
-//        return claims;
-//    }
+    public static <T> Payload<T> getUserInfoFromToken(String token, PublicKey publicKey, Class<T> userType) {
+        Jws<Claims> claimsJws = parserToken(token, publicKey);
+        Claims body = claimsJws.getBody();
+        Payload<T> claims = new Payload<>();
+        claims.setId(body.getId());
+        claims.setUserInfo(JsonUtils.toBean(body.get(JWT_PAYLOAD_USER_KEY).toString(), userType));
+        claims.setExpiration(body.getExpiration());
+        return claims;
+    }
+    public static <T> Payload<T> getAdminInfoFromToken(String token, PublicKey publicKey, Class<T> userType) {
+        Jws<Claims> claimsJws = parserToken(token, publicKey);
+        Claims body = claimsJws.getBody();
+        Payload<T> claims = new Payload<>();
+        claims.setId(body.getId());
+        claims.setUserInfo(JsonUtils.toBean(body.get(JWT_PAYLOAD_ADMIN_KEY).toString(), userType));
+        claims.setExpiration(body.getExpiration());
+        return claims;
+    }
     /**
-     * 校验token
+     * 获取token中的载荷信息
+     *
+     * @param token     用户请求中的令牌
+     * @param publicKey 公钥
+     * @return 用户信息
      */
-    public static UserDO checkToken(String token) {
-        if (validateToken(token)) {
-            Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
-//            String audience = claims.getAudience();
-            System.out.println("oojiojioi");
-            int userId = claims.get("userId", Integer.class);
-            System.out.println("oojiojiosdfsdfi");
-            String role = claims.get("type", String.class);
-            UserDO jwtUser = new UserDO();
-            jwtUser.setUid(userId);
-            jwtUser.setType(role);
-
-            logger.info("===token有效{},客户端{}", jwtUser);
-            return jwtUser;
-        }
-        logger.error("***token无效***");
-        return new UserDO();
+    public static <T> Payload<T> getInfoFromToken(String token, PublicKey publicKey) {
+        Jws<Claims> claimsJws = parserToken(token, publicKey);
+        Claims body = claimsJws.getBody();
+        Payload<T> claims = new Payload<>();
+        claims.setId(body.getId());
+        claims.setExpiration(body.getExpiration());
+        return claims;
     }
 
-
-    private static boolean validateToken(String authToken) {
-        try {
-            System.out.println("oojiojioi");
-            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(authToken);
-            System.out.println("oooi");
-            return true;
-        } catch (Exception e) {
-            logger.error("无效的token：" + authToken);
-        }
-        return false;
-    }
 
 
 }
