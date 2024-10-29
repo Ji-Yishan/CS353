@@ -7,6 +7,7 @@ package com.parttime.cs353.config.jwt;
  **/
 
 import com.parttime.cs353.pojo.data.UserDO;
+import com.parttime.cs353.pojo.dto.UserLoginDTO;
 import com.parttime.cs353.utils.JwtUtils;
 import com.parttime.cs353.utils.RequestUtils;
 import com.parttime.cs353.utils.ResponseUtils;
@@ -15,6 +16,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -26,7 +28,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-
+@Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
     private RsaKeyProperties prop;
@@ -38,11 +40,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        System.out.println("running jwt attemptAuthentication");
-        UserDO sysUser = RequestUtils.read(request, UserDO.class);
-        String username = sysUser.getPhone();
+        log.info("running jwt attemptAuthentication");
+        UserLoginDTO user = RequestUtils.read(request, UserLoginDTO.class);
+        String username = user.getPhone();
         username = username != null ? username : "";
-        String password = sysUser.getPwd();
+        String password = user.getPassword();
         password = password != null ? password : "";
 
         UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);

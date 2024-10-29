@@ -13,23 +13,17 @@ import org.springframework.security.core.GrantedAuthority;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDO implements GrantedAuthority {
+public class UserDO  {
 
     private int uid;
     private String type;
-    private String pwd;
+    private String password;
     private String phone;
     private int status;
     private String name;
-    @JsonIgnore
-    private boolean valid;
 
-    @Override
-    public String getAuthority() {
-        return type;
-    }
-    public UserDO(String phone,String pwd){
+    public UserDO(String phone, String pwd) {
         this.phone=phone;
-        this.pwd=pwd;
+        this.password=phone;
     }
 }

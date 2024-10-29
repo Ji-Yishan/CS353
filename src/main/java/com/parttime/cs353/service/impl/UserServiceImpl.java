@@ -40,13 +40,11 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         SecurityUser user=new SecurityUser();
         UserDO u=userPasswordMapper.selectUserByPhone(username);
-        user.setUsername(u.getPhone());
-        user.setId(u.getUid());
-        user.setPassword(u.getPwd());
+        user.setPhone(u.getPhone());
+        user.setUid(u.getUid());
+        user.setPassword(u.getPassword());
         user.setStatus(u.getStatus());
-        List<UserDO> list=new ArrayList<>();
-        list.add(u);
-        user.setSysRoles(list);
+
         return user;
     }
 }
