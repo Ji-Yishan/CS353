@@ -2,6 +2,8 @@ package com.parttime.cs353.config;
 
 import com.parttime.cs353.config.jwt.Payload;
 import com.parttime.cs353.config.jwt.SecurityUser;
+import com.parttime.cs353.pojo.data.UserDO;
+import com.parttime.cs353.utils.JsonUtils;
 import com.parttime.cs353.utils.JwtUtils;
 import com.parttime.cs353.utils.ResponseUtils;
 import com.parttime.cs353.utils.RsaUtils;
@@ -66,10 +68,10 @@ public class TokenFilter implements Filter {
                     //如果token的格式正确，则先要获取到token
                     String token = header.replace("Bearer ", "");
                     //使用公钥进行解密然后来验证token是否正确
-//                    todo 这里的验证和解析都要改
+//                    todo 这里的逻辑要改
                     Payload<SecurityUser> payload = JwtUtils.getInfoFromToken(token, publick);
-                    SecurityUser sysUser = payload.getUserInfo();
-                    if (sysUser != null) {
+//                    SecurityUser sysUser = payload.getUserInfo();
+                    if (payload.getId() != null) {
 //                        UsernamePasswordAuthenticationToken authResult = new UsernamePasswordAuthenticationToken(sysUser.getUsername(), null, sysUser.getAuthorities());
 //                        SecurityContextHolder.getContext().setAuthentication(authResult);
                         ResponseUtils.write(res,200,"成功登录");

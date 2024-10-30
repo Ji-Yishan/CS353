@@ -72,7 +72,8 @@ public static String generateTokenExpireInSeconds(UserDO userInfo, PrivateKey pr
             .setSubject(userInfo.getPhone())
 //                .claim(JWT_PAYLOAD_USER_KEY, JsonUtils.toString(userInfo))
             .claim("type",userInfo.getType())
-            .claim("userId",userInfo.getUid())
+            .claim("id",userInfo.getUid())
+            .setId(userInfo.getUid()+"")
 //                .setId(createJTI())
             .setIssuedAt(new Date())
             .setExpiration(DateTime.now().plusSeconds(expire).toDate())
@@ -103,7 +104,7 @@ public static String generateTokenExpireInSeconds(UserDO userInfo, PrivateKey pr
      * @param
      * @return 用户信息
      */
-    public static <T> Payload<T> getUserInfoFromToken(String token, PublicKey publicKey, Class<T> userType) {
+    public static <T> Payload<T> getInfoFromToken(String token, PublicKey publicKey, Class<T> userType) {
         Jws<Claims> claimsJws = parserToken(token, publicKey);
         Claims body = claimsJws.getBody();
         Payload<T> claims = new Payload<>();
@@ -132,7 +133,10 @@ public static String generateTokenExpireInSeconds(UserDO userInfo, PrivateKey pr
         Jws<Claims> claimsJws = parserToken(token, publicKey);
         Claims body = claimsJws.getBody();
         Payload<T> claims = new Payload<>();
-        claims.setId(body.getId());
+        Object id=body.get("userId");
+        id=Integer.parseInt(id+"");
+        claims.setId( id+"");
+        claims.setUserInfo((T) body.get("user"));
         claims.setExpiration(body.getExpiration());
         return claims;
     }
