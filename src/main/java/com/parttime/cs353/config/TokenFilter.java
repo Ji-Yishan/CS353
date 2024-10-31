@@ -36,7 +36,9 @@ public class TokenFilter implements Filter {
     }
     private static final Set<String> WHITE_LIST = Stream.of(
             "/register",
-            "/login"
+            "/login",
+            "/other/login",
+            "/company/register"
     ).collect(Collectors.toSet());
     private static final Set<String> TYPES = Stream.of(
             "user", "hr","admin","company"
@@ -45,7 +47,7 @@ public class TokenFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) {
-        log.info("myFilter2 begin");
+        log.info("token filter begin");
         HttpServletResponse res = (HttpServletResponse) response;
         try {
             log.info("业务方法执行");
@@ -59,6 +61,7 @@ public class TokenFilter implements Filter {
                 String header = req.getHeader("Authorization");
                 // 白名单
                 log.info(req.getServletPath());
+                log.info(String.valueOf(WHITE_LIST.contains(req.getServletPath())));
                 if (WHITE_LIST.contains(req.getServletPath())) {
                     chain.doFilter(request, response);
                     return;
@@ -94,10 +97,10 @@ public class TokenFilter implements Filter {
 //            ResponseUtils.write(res, HttpServletResponse.SC_OK, "用户认证通过！");
 //            chain.doFilter(request, response);
         } catch (Exception e) {
-            log.error("error!", e);
+            log.error("error in token filter!", e);
             ResponseUtils.write(res, HttpServletResponse.SC_FORBIDDEN, "请您重新登录！");
         }
-        log.info("myFilter2 end");
+        log.info("token filter end");
     }
 
     @Override

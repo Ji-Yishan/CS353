@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.parttime.cs353.dao.AdminMapper">
+
+    <select id="selectAdminByPhone" parameterType="string" resultType="com.parttime.cs353.pojo.data.AdminDO">
+        select * from admin where phone=#{phone};
+    </select>
+
+
+</mapper>

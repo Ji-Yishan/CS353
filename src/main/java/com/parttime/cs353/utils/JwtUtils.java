@@ -3,6 +3,8 @@ package com.parttime.cs353.utils;
 
 import com.parttime.cs353.config.jwt.Payload;
 import com.parttime.cs353.config.jwt.SecurityUser;
+import com.parttime.cs353.pojo.data.AdminDO;
+import com.parttime.cs353.pojo.data.CompanyDO;
 import com.parttime.cs353.pojo.data.UserDO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -57,6 +59,38 @@ public class JwtUtils {
                 .claim("type",userInfo.getType())
                 .claim("userId",userInfo.getUid())
                 .claim("status",userInfo.getStatus())
+//                .setId(createJTI())
+                .setIssuedAt(new Date())
+                .setExpiration(DateTime.now().plusMinutes(expire).toDate())
+//                去掉RSA的private key
+                .signWith(privateKey, SignatureAlgorithm.RS256)
+//                .signWith(SignatureAlgorithm.HS512,SECRET_KEY)
+                .compact();
+    }
+
+    public static String generateCompanyTokenExpireInMinutes(CompanyDO userInfo, PrivateKey privateKey, int expire) {
+        return Jwts.builder()
+                .setSubject(userInfo.getPhone())
+                .claim("userInfo", JsonUtils.toString(userInfo))
+                .claim("type","company")
+                .claim("userId",userInfo.getCid())
+                .claim("status",userInfo.getStatus())
+//                .setId(createJTI())
+                .setIssuedAt(new Date())
+                .setExpiration(DateTime.now().plusMinutes(expire).toDate())
+//                去掉RSA的private key
+                .signWith(privateKey, SignatureAlgorithm.RS256)
+//                .signWith(SignatureAlgorithm.HS512,SECRET_KEY)
+                .compact();
+    }
+
+    public static String generateAdminTokenExpireInMinutes(AdminDO userInfo, PrivateKey privateKey, int expire) {
+        return Jwts.builder()
+                .setSubject(userInfo.getPhone())
+                .claim("userInfo", JsonUtils.toString(userInfo))
+                .claim("type","admin")
+                .claim("userId",userInfo.getAdminId())
+//                .claim("status",userInfo.getStatus())
 //                .setId(createJTI())
                 .setIssuedAt(new Date())
                 .setExpiration(DateTime.now().plusMinutes(expire).toDate())

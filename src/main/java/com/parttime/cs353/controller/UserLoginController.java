@@ -9,6 +9,7 @@ import com.parttime.cs353.utils.JwtUtils;
 import com.parttime.cs353.utils.ResponseUtils;
 import com.parttime.cs353.utils.RsaKeyProperties;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,8 @@ import org.springframework.web.bind.annotation.*;
  * @create: 2024-10-25 22:39
  **/
 @RestController
-public class UserLogin {
+@Slf4j
+public class UserLoginController {
     @Autowired
     UserService userService;
     @Autowired
@@ -54,8 +56,10 @@ public class UserLogin {
             ResponseUtils.write(response,200,"成功注册");
 
         }catch (Exception e){
+            log.info(String.valueOf(e));
             ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"注册失败");
         }
     }
+
 
 }
