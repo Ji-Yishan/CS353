@@ -38,14 +38,18 @@ public class TokenFilter implements Filter {
             "/register",
             "/login"
     ).collect(Collectors.toSet());
+    private static final Set<String> TYPES = Stream.of(
+            "user", "hr","admin","company"
+    ).collect(Collectors.toSet());
     private final PublicKey publick= RsaUtils.getPublicKey("C:\\auth_key\\rsa_key.pub");
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) {
         log.info("myFilter2 begin");
+        HttpServletResponse res = (HttpServletResponse) response;
         try {
             log.info("业务方法执行");
-            HttpServletResponse res = (HttpServletResponse) response;
+
             HttpServletRequest req=(HttpServletRequest) request;
 
 //            @Override
@@ -68,12 +72,14 @@ public class TokenFilter implements Filter {
                     //如果token的格式正确，则先要获取到token
                     String token = header.replace("Bearer ", "");
                     //使用公钥进行解密然后来验证token是否正确
-//                    todo 这里的逻辑要改
                     Payload<SecurityUser> payload = JwtUtils.getInfoFromToken(token, publick);
 //                    SecurityUser sysUser = payload.getUserInfo();
-                    if (payload.getId() != null) {
+                    if (payload.getId() != null&& payload.getUserInfo().getStatus()==0) {
 //                        UsernamePasswordAuthenticationToken authResult = new UsernamePasswordAuthenticationToken(sysUser.getUsername(), null, sysUser.getAuthorities());
 //                        SecurityContextHolder.getContext().setAuthentication(authResult);
+                        if(!TYPES.contains(JwtUtils.getTokenBody(token,publick).get("type"))){
+                            ResponseUtils.write(res,HttpServletResponse.SC_FORBIDDEN,"用户类型错误");
+                        }
                         ResponseUtils.write(res,200,"成功登录");
                     } else {
                         ResponseUtils.write(res, HttpServletResponse.SC_FORBIDDEN, "用户验证失败！");
@@ -89,6 +95,7 @@ public class TokenFilter implements Filter {
 //            chain.doFilter(request, response);
         } catch (Exception e) {
             log.error("error!", e);
+            ResponseUtils.write(res, HttpServletResponse.SC_FORBIDDEN, "请您重新登录！");
         }
         log.info("myFilter2 end");
     }

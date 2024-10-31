@@ -3,7 +3,9 @@ package com.parttime.cs353.config.jwt;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.parttime.cs353.pojo.data.UserDO;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -17,6 +19,8 @@ import java.util.List;
  * @create: 2024-10-26 14:58
  **/
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class SecurityUser implements UserDetails {
     private Integer uid;
     private String phone;
@@ -24,6 +28,7 @@ public class SecurityUser implements UserDetails {
     private int status;
     private List<GrantedAuthority> authorities=new ArrayList<>();
 
+    public SecurityUser(int status){this.status=status;}
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

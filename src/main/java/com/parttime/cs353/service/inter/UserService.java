@@ -2,6 +2,7 @@ package com.parttime.cs353.service.inter;
 
 
 import com.parttime.cs353.pojo.data.UserDO;
+import com.parttime.cs353.pojo.dto.UserLoginDTO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -20,4 +21,5 @@ public interface UserService extends UserDetailsService {
      * @return
     **/
     UserDO selectUserByPhone(@Param("phone")String phone);
+    int addUser(UserLoginDTO userLoginDTO);
 }

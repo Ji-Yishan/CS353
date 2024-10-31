@@ -2,6 +2,7 @@ package com.parttime.cs353.dao;
 
 
 import com.parttime.cs353.pojo.data.UserDO;
+import com.parttime.cs353.pojo.dto.UserLoginDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,5 +21,6 @@ public interface UserPasswordMapper{
      * @return
      **/
     UserDO selectUserByPhone(@Param("phone")String phone);
+    int addUser(UserLoginDTO userLoginDTO);
 
 }

@@ -4,6 +4,7 @@ package com.parttime.cs353.service.impl;
 import com.parttime.cs353.config.jwt.SecurityUser;
 import com.parttime.cs353.dao.UserPasswordMapper;
 import com.parttime.cs353.pojo.data.UserDO;
+import com.parttime.cs353.pojo.dto.UserLoginDTO;
 import com.parttime.cs353.service.inter.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDO selectUserByPhone(String phone) {
         return userPasswordMapper.selectUserByPhone(phone);
+    }
+
+    @Override
+    public int addUser(UserLoginDTO userLoginDTO) {
+        return userPasswordMapper.addUser(userLoginDTO);
     }
 
     @Override
