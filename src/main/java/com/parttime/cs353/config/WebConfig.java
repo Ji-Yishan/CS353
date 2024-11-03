@@ -1,5 +1,6 @@
 package com.parttime.cs353.config;
 
+import com.parttime.cs353.config.jwt.TokenFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

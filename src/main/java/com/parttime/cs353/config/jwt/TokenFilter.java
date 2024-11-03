@@ -1,4 +1,5 @@
-package com.parttime.cs353.config;
+package com.parttime.cs353.config.jwt;
+
 
 import com.parttime.cs353.config.jwt.Payload;
 import com.parttime.cs353.config.jwt.SecurityUser;

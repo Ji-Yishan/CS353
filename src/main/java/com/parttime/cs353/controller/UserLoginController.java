@@ -38,6 +38,7 @@ public class UserLoginController {
         if(pwd.equals(userLoginDTO.getPassword())){
             String token="Bearer "+JwtUtils.generateTokenExpireInMinutes(userDO,prop.getPrivateKey(),100);
             response.addHeader("Authorization",  token);
+            log.info("返回token："+token);
             ResponseUtils.write(response,200,"成功登录");
         }
         ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"用户登录验证失败");
@@ -55,7 +56,7 @@ public class UserLoginController {
             String token="Bearer "+JwtUtils.generateTokenExpireInMinutes(userDO,prop.getPrivateKey(),100);
             response.addHeader("Authorization",  token);
             ResponseUtils.write(response,200,"成功注册");
-
+            log.info("返回token："+token);
         }catch (Exception e){
             log.info(String.valueOf(e));
             ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"注册失败");
@@ -63,7 +64,7 @@ public class UserLoginController {
     }
     @GetMapping("/hello")
     public String test(HttpServletResponse response){
-        ResponseUtils.write(response,200,"成功跨域");
+//        ResponseUtils.write(response,200,"成功跨域");
         return "yeahhhhhhh";
     }
 
