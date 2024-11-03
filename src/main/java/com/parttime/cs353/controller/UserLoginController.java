@@ -49,6 +49,7 @@ public class UserLoginController {
     @PostMapping("/register")
     public void register(@RequestBody UserLoginDTO userLoginDTO,HttpServletResponse response){
         try {
+//            todo 防止同一个phone生成多个账号。。
             userService.addUser(userLoginDTO);
             UserDO userDO=userService.selectUserByPhone(userLoginDTO.getPhone());
             String token="Bearer "+JwtUtils.generateTokenExpireInMinutes(userDO,prop.getPrivateKey(),100);
@@ -59,6 +60,11 @@ public class UserLoginController {
             log.info(String.valueOf(e));
             ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"注册失败");
         }
+    }
+    @GetMapping("/hello")
+    public String test(HttpServletResponse response){
+        ResponseUtils.write(response,200,"成功跨域");
+        return "yeahhhhhhh";
     }
 
 

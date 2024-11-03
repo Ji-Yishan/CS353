@@ -38,7 +38,8 @@ public class TokenFilter implements Filter {
             "/register",
             "/login",
             "/other/login",
-            "/company/register"
+            "/company/register",
+            "/hello"
     ).collect(Collectors.toSet());
     private static final Set<String> TYPES = Stream.of(
             "user", "hr","admin","company"
