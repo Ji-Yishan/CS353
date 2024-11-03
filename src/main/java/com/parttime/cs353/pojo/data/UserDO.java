@@ -1,8 +1,10 @@
 package com.parttime.cs353.pojo.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 
 /**
  * @author: Isabella
@@ -11,16 +13,17 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-//public class UserDO implements GrantedAuthority {
-public class UserDO {
+public class UserDO  {
+
     private int uid;
     private String type;
-    private String pwd;
+    private String password;
     private String phone;
     private int status;
+    private String name;
 
-//    @Override
-//    public String getAuthority() {
-//        return type;
-//    }
+    public UserDO(String phone, String pwd) {
+        this.phone=phone;
+        this.password=phone;
+    }
 }
