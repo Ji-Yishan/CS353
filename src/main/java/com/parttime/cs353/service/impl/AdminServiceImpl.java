@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdminServiceImpl implements AdminService {
     @Autowired
-    AdminMapper adminMapper;
+    private AdminMapper adminMapper;
 
     public void setAdminMapper(AdminMapper adminMapper) {
         this.adminMapper = adminMapper;

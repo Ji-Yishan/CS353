@@ -49,6 +49,10 @@ public class CompanyLoginController {
     @PostMapping("/company/register")
     public void register(@RequestBody OtherLoginDO otherLoginDO, HttpServletResponse response){
         try {
+            if(companyService.selectCompanyByPhone(otherLoginDO.getPhone())!=null){
+                ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"注册失败,账号已存在");
+                return;
+            }
             companyService.addCompany(otherLoginDO);
             CompanyDO companyDO=companyService.selectCompanyByPhone(otherLoginDO.getPhone());
             String token="Bearer "+JwtUtils.generateCompanyTokenExpireInMinutes(companyDO,prop.getPrivateKey(),100);

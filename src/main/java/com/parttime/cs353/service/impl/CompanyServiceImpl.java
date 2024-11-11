@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @Description:
  * @author: Isabella
@@ -17,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Service("companyServiceImpl")
 public class CompanyServiceImpl implements CompanyService {
     @Autowired
-    CompanyPasswordMapper companyPasswordMapper;
+    private CompanyPasswordMapper companyPasswordMapper;
     public void  setCompanyPasswordMapper(CompanyPasswordMapper companyPasswordMapper) {
          this.companyPasswordMapper=companyPasswordMapper;
     }
@@ -31,5 +33,10 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public int addCompany(OtherLoginDO otherLoginDO) {
         return companyPasswordMapper.addCompany(otherLoginDO);
+    }
+
+    @Override
+    public List<CompanyDO> selectCompanyByName(String name) {
+        return companyPasswordMapper.selectCompanyByName(name);
     }
 }

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.parttime.cs353.dao.JobMapper">
+
+    <select id="selectJobByName" parameterType="string" resultType="com.parttime.cs353.pojo.data.JobDO">
+        SELECT * FROM job
+        WHERE
+            `name` LIKE CONCAT('%', #{name}, '%')
+            LIMIT 20
+    </select>
+
+    <insert id="addJob" parameterType="com.parttime.cs353.pojo.data.JobDO">
+        INSERT INTO jobs (`name`, tags, `time`, salary, salary_detail, working_hours, requirements, `description`, recruit_num, deadline, cid, address)
+        VALUES (#{name}, #{tags}, #{time}, #{salary}, #{salaryDetail}, #{workingHours}, #{requirements}, #{description}, #{recruitNum}, #{deadline},  #{cid}, #{address})
+    </insert>
+
+    <delete id="deleteJob" parameterType="int">
+        DELETE FROM jobs WHERE jid = #{jid}
+    </delete>
+
+    <update id="updateJob" parameterType="com.parttime.cs353.pojo.data.JobDO">
+        UPDATE jobs
+        <set>
+            <trim suffixOverrides=",">
+            <!-- 更新非null字段 -->
+                <trim prefix="`name` = CASE WHEN #{name} IS NOT NULL THEN #{name} ELSE name END,">
+                <trim prefix="`tags` = CASE WHEN #{tags} IS NOT NULL THEN #{tags} ELSE tags END,">
+                <trim prefix="time = CASE WHEN #{time} IS NOT NULL THEN #{time} ELSE time END,">
+                <trim prefix="salary = CASE WHEN #{salary} IS NOT NULL THEN #{salary} ELSE salary END,">
+                <trim prefix="salary_detail = CASE WHEN #{salaryDetail} IS NOT NULL THEN #{salaryDetail} ELSE salary_detail END,">
+                <trim prefix="working_hours = CASE WHEN #{workingHours} IS NOT NULL THEN #{workingHours} ELSE working_hours END,">
+                <trim prefix="requirements = CASE WHEN #{requirements} IS NOT NULL THEN #{requirements} ELSE requirements END,">
+                <trim prefix="`description` = CASE WHEN #{description} IS NOT NULL THEN #{description} ELSE description END,">
+                <trim prefix="recruit_num = CASE WHEN #{recruitNum} IS NOT NULL THEN #{recruitNum} ELSE recruit_num END,">
+                <trim prefix="deadline = CASE WHEN #{deadline} IS NOT NULL THEN #{deadline} ELSE deadline END,">
+                <trim prefix="address = CASE WHEN #{address} IS NOT NULL THEN #{address} ELSE address END">
+        WHERE jid = #{jid}
+                </trim>
+                </trim>
+                </trim>
+                </trim>
+                </trim>
+                </trim>
+                </trim>
+                </trim>
+                </trim>
+                </trim>
+                </trim>
+                </trim>
+        </set>
+    </update>
+
+
+    <select id="selectJobByTag" parameterType="string" resultType="com.parttime.cs353.pojo.data.JobDO">
+        SELECT * FROM job
+        WHERE
+            `tags` LIKE CONCAT('%', #{tags}, '%')
+            LIMIT 20
+    </select>
+
+    <select id="selectJobByWorkTime" parameterType="string" resultType="com.parttime.cs353.pojo.data.JobDO">
+        SELECT * FROM job
+        WHERE
+            `workingHours` LIKE CONCAT('%', #{workingHours}, '%')
+            LIMIT 20
+    </select>
+
+
+</mapper>

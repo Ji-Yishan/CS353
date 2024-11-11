@@ -40,6 +40,11 @@ public class TokenFilter implements Filter {
             "/login",
             "/other/login",
             "/company/register",
+//            todo 改成正则
+            "/search/Job",
+            "/search/Company",
+            "/search/Tag",
+            "/search/WorkingHour",
             "/hello"
     ).collect(Collectors.toSet());
     private static final Set<String> TYPES = Stream.of(

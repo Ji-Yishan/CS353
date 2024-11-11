@@ -50,7 +50,10 @@ public class UserLoginController {
     @PostMapping("/register")
     public void register(@RequestBody UserLoginDTO userLoginDTO,HttpServletResponse response){
         try {
-//            todo 防止同一个phone生成多个账号。。
+            if(userService.selectUserByPhone(userLoginDTO.getPhone())!=null){
+                ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"注册失败,账号已存在");
+                return;
+            }
             userService.addUser(userLoginDTO);
             UserDO userDO=userService.selectUserByPhone(userLoginDTO.getPhone());
             String token="Bearer "+JwtUtils.generateTokenExpireInMinutes(userDO,prop.getPrivateKey(),100);
