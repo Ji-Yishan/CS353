@@ -8,7 +8,7 @@
         SELECT * FROM job
         WHERE
             `name` LIKE CONCAT('%', #{name}, '%')
-            LIMIT 20
+
     </select>
 
     <insert id="addJob" parameterType="com.parttime.cs353.pojo.data.JobDO">
@@ -53,19 +53,68 @@
     </update>
 
 
-    <select id="selectJobByTag" parameterType="string" resultType="com.parttime.cs353.pojo.data.JobDO">
+<!--    <select id="selectJobByTag" parameterType="string" resultType="com.parttime.cs353.pojo.data.JobDO">-->
+<!--        SELECT * FROM job-->
+<!--        WHERE-->
+<!--            `tags` LIKE CONCAT('%', #{tags}, '%')-->
+<!--            LIMIT 20-->
+<!--    </select>-->
+
+<!--    <select id="selectJobByWorkTime" parameterType="string" resultType="com.parttime.cs353.pojo.data.JobDO">-->
+<!--        SELECT * FROM job-->
+<!--        WHERE-->
+<!--            `workingHours` LIKE CONCAT('%', #{workingHours}, '%')-->
+<!--            LIMIT 20-->
+<!--    </select>-->
+    <select id="selectByCondition" parameterType="map" resultType="com.parttime.cs353.pojo.data.JobDO">
         SELECT * FROM job
-        WHERE
-            `tags` LIKE CONCAT('%', #{tags}, '%')
-            LIMIT 20
+        <where>
+            <if test="name!= null">
+                 `name` LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="tags!= null">
+                AND `tags` LIKE '%;#{tags};%'
+            </if>
+            <if test="time!= null">
+                AND `time` LIKE '%#{time}%'
+            </if>
+            <if test="salary!= null">
+                AND `salary` LIKE #{salary}
+            </if>
+            <if test="salaryDetail!= null">
+                AND `salaryDetail` LIKE '%#{salaryDetail}%'
+            </if>
+            <if test="workingHours!= null">
+                AND `workingHours` LIKE #{workingHours}
+            </if>
+            <if test="requirements!= null">
+                AND `requirements` LIKE '%#{requirements}%'
+            </if>
+            <if test="description!= null">
+                AND `description` LIKE '%#{description}%'
+            </if>
+            <if test="recruitNum!= null">
+                AND `recruitNum` = #{recruitNum}
+            </if>
+            <if test="deadline!= null">
+                AND `deadline` LIKE '%#{deadline}%'
+            </if>
+            <if test="address!= null">
+                AND `address` LIKE '%#{address}%'
+            </if>
+        </where>
+
     </select>
 
-    <select id="selectJobByWorkTime" parameterType="string" resultType="com.parttime.cs353.pojo.data.JobDO">
-        SELECT * FROM job
-        WHERE
-            `workingHours` LIKE CONCAT('%', #{workingHours}, '%')
-            LIMIT 20
+    <select id="selectJobById" parameterType="int" resultType="com.parttime.cs353.pojo.data.JobDO">
+            SELECT * FROM job
+            WHERE
+                `jid` =#{jid}
     </select>
-
+    <select id="selectJobByCid" parameterType="int" resultType="com.parttime.cs353.pojo.data.JobDO">
+    SELECT * FROM job
+    WHERE
+        `cid` = #{cid};
+    </select>
 
 </mapper>

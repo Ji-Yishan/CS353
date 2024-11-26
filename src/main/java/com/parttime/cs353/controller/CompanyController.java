@@ -1,5 +1,6 @@
 package com.parttime.cs353.controller;
 
+import com.parttime.cs353.pojo.business.CompanyBO;
 import com.parttime.cs353.pojo.data.AdminDO;
 import com.parttime.cs353.pojo.data.CompanyDO;
 import com.parttime.cs353.pojo.dto.OtherLoginDO;
@@ -11,9 +12,7 @@ import com.parttime.cs353.utils.RsaKeyProperties;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Description:
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @Slf4j
 @RestController
-public class CompanyLoginController {
+public class CompanyController {
     @Autowired
     CompanyService companyService;
     @Autowired
@@ -64,6 +63,22 @@ public class CompanyLoginController {
             ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"公司注册失败");
         }
     }
+    /**
+     * 公司主页
+     * @module root
+     */
+    @GetMapping("/details/company/{cid}")
+    public void homepage(@PathVariable int cid, HttpServletResponse response){
+        CompanyBO companyBO=companyService.selectCompanyById(cid);
+        if(companyBO.equals(null)){
+            ResponseUtils.write(response,404,"no company found");
+            return;
+        }
+        ResponseUtils.write(response,200,"success",companyBO);
+
+
+    }
+
 
     public void companyLogin(OtherLoginDO otherLoginDO, HttpServletResponse response){
         CompanyDO companyDO=companyService.selectCompanyByPhone(otherLoginDO.getPhone());

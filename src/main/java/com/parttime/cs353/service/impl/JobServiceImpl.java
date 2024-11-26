@@ -1,12 +1,15 @@
 package com.parttime.cs353.service.impl;
 
+import com.parttime.cs353.dao.CompanyPasswordMapper;
 import com.parttime.cs353.dao.JobMapper;
+import com.parttime.cs353.pojo.business.JobBO;
 import com.parttime.cs353.pojo.data.JobDO;
 import com.parttime.cs353.service.inter.JobService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,9 +22,12 @@ import java.util.Map;
 @Slf4j
 @Service("jobServiceImpl")
 public class JobServiceImpl implements JobService {
+    private final int pageSize=5;
 
     @Autowired
     private JobMapper jobMapper;
+    @Autowired
+    private CompanyPasswordMapper companyPasswordMapper;
 
     public void setJobMapper(JobMapper jobMapper){
         this.jobMapper=jobMapper;
@@ -33,8 +39,25 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public List<JobDO> selectJobByName(String name) {
-        return jobMapper.selectJobByName(name);
+    public List<JobBO> selectJobByName(String name) {
+        List<JobBO> result=new ArrayList<>();
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("name", name);
+//        params.put("pageSize", pageSize);
+//        params.put("offset", (page-1)*pageSize);
+        List<JobDO> list=jobMapper.selectJobByName(name);
+        int pageN;
+        if(list.size()%5!=0){
+            pageN=list.size()/5+1;
+        }else {pageN=list.size()/5;}
+        for(JobDO j:list){
+            String companyNmae=companyPasswordMapper.selectCompanyById(j.getCid()).getName();
+            JobBO jobBO=new JobBO(j.getJid(),j.getName(),j.getTags(),
+                    j.getSalary(),j.getRecruitNum(),j.getCid(),companyNmae);
+            jobBO.setPageNum(pageN);
+            result.add(jobBO);
+        }
+        return result;
     }
 
     @Override
@@ -55,5 +78,30 @@ public class JobServiceImpl implements JobService {
     @Override
     public List<JobDO> selectJobByWorkTime(String workingHours) {
         return jobMapper.selectJobByWorkTime(workingHours);
+    }
+
+    @Override
+    public List<JobBO> selectByCondition(Map<String, Object> map) {
+//        map.put("pageSize", pageSize);
+//        map.put("offset", (page-1)*pageSize);
+        List<JobBO> result=new ArrayList<>();
+        List<JobDO> list=jobMapper.selectByCondition(map);
+        int pageN;
+        if(list.size()%5!=0){
+            pageN=list.size()/5+1;
+        }else {pageN=list.size()/5;}
+        for(JobDO j:list){
+            String companyNmae=companyPasswordMapper.selectCompanyById(j.getCid()).getName();
+            JobBO jobBO=new JobBO(j.getJid(),j.getName(),j.getTags(),
+                    j.getSalary(),j.getRecruitNum(),j.getCid(),companyNmae);
+            jobBO.setPageNum(pageN);
+            result.add(jobBO);
+        }
+        return result;
+    }
+
+    @Override
+    public JobDO selectJobById(int jid) {
+        return jobMapper.selectJobById(jid);
     }
 }

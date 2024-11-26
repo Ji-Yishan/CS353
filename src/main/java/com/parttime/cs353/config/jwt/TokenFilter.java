@@ -43,8 +43,7 @@ public class TokenFilter implements Filter {
 //            todo 改成正则
             "/search/Job",
             "/search/Company",
-            "/search/Tag",
-            "/search/WorkingHour",
+            "/search/filter",
             "/hello"
     ).collect(Collectors.toSet());
     private static final Set<String> TYPES = Stream.of(
@@ -68,7 +67,7 @@ public class TokenFilter implements Filter {
                 String header = req.getHeader("Authorization");
                 // 白名单
                 log.info(req.getServletPath());
-                log.info(String.valueOf(WHITE_LIST.contains(req.getServletPath())));
+                log.info("是否在白名单内："+String.valueOf(WHITE_LIST.contains(req.getServletPath())));
                 if (WHITE_LIST.contains(req.getServletPath())) {
                     chain.doFilter(request, response);
                     return;
@@ -88,15 +87,22 @@ public class TokenFilter implements Filter {
 //                        UsernamePasswordAuthenticationToken authResult = new UsernamePasswordAuthenticationToken(sysUser.getUsername(), null, sysUser.getAuthorities());
 //                        SecurityContextHolder.getContext().setAuthentication(authResult);
                         if(!TYPES.contains(JwtUtils.getTokenBody(token,publick).get("type"))){
+                            log.info("type error");
                             ResponseUtils.write(res,HttpServletResponse.SC_FORBIDDEN,"用户类型错误");
+                            return;
                         }
-                        ResponseUtils.write(res,200,"成功登录");
+                        log.info("valid token");
+                        chain.doFilter(request, response);
+                        return;
+
                     } else {
                         ResponseUtils.write(res, HttpServletResponse.SC_FORBIDDEN, "用户验证失败！");
+                        return;
                     }
                 }
             } catch (ExpiredJwtException e) {
                 ResponseUtils.write(res, HttpServletResponse.SC_FORBIDDEN, "请您重新登录！");
+                return;
             }
 //            }
 

@@ -40,4 +40,22 @@ public class ResponseUtils {
             logger.error("响应出错：" + msg, e);
         }
     }
+
+    public static void write(HttpServletResponse response, int status, String msg,Object object) {
+        try {
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Cache-Control", "no-cache");
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json");
+            response.setStatus(status);
+
+            PrintWriter out = response.getWriter();
+//            放入data
+            out.write(JsonUtils.toString(new Result(status, msg, object)));
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            logger.error("响应出错：" + msg, e);
+        }
+    }
 }
