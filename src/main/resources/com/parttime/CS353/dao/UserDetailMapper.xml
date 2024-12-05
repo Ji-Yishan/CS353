@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.parttime.cs353.dao.UserDetailMapper">
+    <insert id="insertWorkExperience" parameterType="int">
+        insert into workexperience (`uid`)
+        values (#{uid});
+    </insert>
+    <select id="selectWorkExperience" parameterType="int" resultType="com.parttime.cs353.pojo.data.WorkExperienceDO">
+        select * from workexperience where `uid`=#{uid};
+    </select>
+    <delete id="deleteWorkExperience" parameterType="int">
+        DELETE FROM workexperience WHERE wid = #{wid}
+    </delete>
+    <update id="updateWorkExperience" parameterType="com.parttime.cs353.pojo.data.WorkExperienceDO">
+
+        update workexperience
+        <set>
+            <if test="companyName != null">
+                `companyName` = #{companyName},
+            </if>
+            <if test="industryInvolved != null">
+                `industryInvolved` = #{industryInvolved},
+            </if>
+            <if test="departmentName != null">
+                `departmentName` = #{departmentName},
+            </if>
+            <if test="jobTitle != null">
+                `jobTitle` = #{jobTitle},
+            </if>
+            <if test="jobBeginTime != null">
+                `jobBeginTime` = #{jobBeginTime},
+            </if>
+            <if test="jobEndTime != null">
+                `jobEndTime` = #{jobEndTime},
+            </if>
+            <if test="jobContent != null">
+                `jobContent` = #{jobContent},
+            </if>
+        </set>
+
+        <where >
+            wid=#{wid};
+        </where>
+
+    </update>
+    <insert id="insertProjectExperience" parameterType="int">
+        insert into projectexperience (`uid`)
+        values (#{uid});
+    </insert>
+    <select id="selectProjectExperience" parameterType="int" resultType="com.parttime.cs353.pojo.data.ProjectExperienceDO">
+        select * from projectexperience where `uid`=#{uid};
+    </select>
+    <delete id="deleteProjectExperience" parameterType="int">
+        DELETE FROM projectexperience WHERE pid = #{pid}
+    </delete>
+    <update id="updateProjectExperience" parameterType="com.parttime.cs353.pojo.data.ProjectExperienceDO">
+        update projectexperience
+        <set>
+            <if test="projectName != null">
+                `projectName` = #{projectName},
+            </if>
+            <if test="projectRole != null">
+                `projectRole` = #{projectRole},
+            </if>
+            <if test="projectTimeBegin != null">
+                `projectTimeBegin` = #{projectTimeBegin},
+            </if>
+            <if test="projectTimeEnd != null">
+                `projectTimeEnd` = #{projectTimeEnd},
+            </if>
+            <if test="projectDescription != null">
+                `projectDescription` = #{projectDescription},
+            </if>
+        </set>
+
+        <where >
+            pid=#{pid};
+        </where>
+    </update>
+    <insert id="insertEducationExperience" parameterType="int">
+        insert into educationexperience (`uid`)
+        values (#{uid});
+    </insert>
+    <select id="selectEducationExperience" parameterType="int" resultType="com.parttime.cs353.pojo.data.EducationExperienceDO">
+        select * from educationexperience where `uid`=#{uid};
+    </select>
+    <update id="updateEducationExperience" parameterType="com.parttime.cs353.pojo.data.EducationExperienceDO">
+
+        update educationexperience
+        <set>
+            <if test="schoolName != null">
+                `schoolName` = #{schoolName},
+            </if>
+            <if test="majorName != null">
+                `majorName` = #{majorName},
+            </if>
+            <if test="timeBegin != null">
+                `timeBegin` = #{timeBegin},
+            </if>
+            <if test="timeEnd != null">
+                `timeEnd` = #{timeEnd},
+            </if>
+            <if test="experienceInSchool != null">
+                `experienceInSchool` = #{experienceInSchool},
+            </if>
+        </set>
+
+        <where >
+            eid=#{eid};
+        </where>
+
+    </update>
+
+</mapper>

@@ -1,10 +1,14 @@
 package com.parttime.cs353.dao;
 
 
+import com.parttime.cs353.pojo.business.UserDetailBO;
+import com.parttime.cs353.pojo.business.UserExpectationBO;
 import com.parttime.cs353.pojo.data.UserDO;
 import com.parttime.cs353.pojo.dto.UserLoginDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.Map;
 
 /**
  * @author: Isabella
@@ -22,5 +26,8 @@ public interface UserPasswordMapper{
      **/
     UserDO selectUserByPhone(@Param("phone")String phone);
     int addUser(UserLoginDTO userLoginDTO);
+    int updateUserDetail(UserDetailBO userDetailBO);
+    int updateUserAdvantage(Map<String,Object> map);
+    int updateExpectation(UserExpectationBO userExpectationBO);
 
 }

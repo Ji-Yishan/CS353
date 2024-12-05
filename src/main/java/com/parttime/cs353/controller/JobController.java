@@ -77,7 +77,7 @@ public class JobController {
      * 过滤搜索
      * @module 招聘
      */
-    @PatchMapping("/search/filter")
+    @PostMapping("/search/filter")
     public void searchJobWithFilter(@RequestBody JobDTO jobDO,
                                     HttpServletResponse response){
         try {

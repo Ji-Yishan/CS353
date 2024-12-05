@@ -21,6 +21,13 @@ public class UserDO  {
     private String phone;
     private int status;
     private String name;
+    private String gender;
+    private String birthday;
+    private String advantage;
+    private String desireIndustry;
+    private String desireTag;
+    private String desiredWorktime;
+    private String salaryRequirement;
 
     public UserDO(String phone, String pwd) {
         this.phone=phone;
