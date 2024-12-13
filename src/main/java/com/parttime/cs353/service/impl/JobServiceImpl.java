@@ -104,4 +104,9 @@ public class JobServiceImpl implements JobService {
     public JobDO selectJobById(int jid) {
         return jobMapper.selectJobById(jid);
     }
+
+    @Override
+    public List<JobDO> selectJobByCid(int cid) {
+        return jobMapper.selectJobByCid(cid);
+    }
 }

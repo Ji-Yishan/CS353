@@ -23,4 +23,5 @@ public interface JobMapper {
     List<JobDO> selectByCondition(Map<String, Object> map);
     JobDO selectJobById(@Param("jid")int jid);
     List<JobDO> selectJobByCid(@Param("cid")int cid);
+
 }

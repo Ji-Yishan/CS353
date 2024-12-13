@@ -83,7 +83,7 @@ public class TokenFilter implements Filter {
                     //使用公钥进行解密然后来验证token是否正确
                     Payload<SecurityUser> payload = JwtUtils.getInfoFromToken(token, publick);
 //                    SecurityUser sysUser = payload.getUserInfo();
-                    if (payload.getId() != null&& payload.getUserInfo().getStatus()==0) {
+                    if (payload.getId() != null) {
 //                        UsernamePasswordAuthenticationToken authResult = new UsernamePasswordAuthenticationToken(sysUser.getUsername(), null, sysUser.getAuthorities());
 //                        SecurityContextHolder.getContext().setAuthentication(authResult);
                         if(!TYPES.contains(JwtUtils.getTokenBody(token,publick).get("type"))){

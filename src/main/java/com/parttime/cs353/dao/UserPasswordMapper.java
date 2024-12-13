@@ -1,6 +1,7 @@
 package com.parttime.cs353.dao;
 
 
+import com.parttime.cs353.pojo.bean.UserDetailBean;
 import com.parttime.cs353.pojo.business.UserDetailBO;
 import com.parttime.cs353.pojo.business.UserExpectationBO;
 import com.parttime.cs353.pojo.data.UserDO;
@@ -29,5 +30,6 @@ public interface UserPasswordMapper{
     int updateUserDetail(UserDetailBO userDetailBO);
     int updateUserAdvantage(Map<String,Object> map);
     int updateExpectation(UserExpectationBO userExpectationBO);
+    UserDetailBean selectUserDetail(@Param("uid") int uid);
 
 }

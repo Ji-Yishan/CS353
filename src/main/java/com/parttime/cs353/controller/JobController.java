@@ -110,29 +110,36 @@ public class JobController {
         }
         ResponseUtils.write(response,200,"success",jobDO);
     }
-
-
     /**
-     * 按照标签搜索
-     * @module 招聘
+     * 查看发布岗位
+     * @module 公司
      */
-    @Deprecated
-    @GetMapping("/search/Tag")
-    public List<JobDO> getJobByTag(@RequestParam String tags){
-
-        return jobService.selectJobByTag(tags);
-    }
-
-    /**
-     * 按照工作时长搜索
-     * @module 招聘
-     */
-    @Deprecated
-    @GetMapping("/search/WorkingHour")
-    public List<JobDO> getJobByWorkingHour(@RequestParam String workingHours){
-        return jobService.selectJobByWorkTime(workingHours);
+    @GetMapping("/company/job/{cid}")
+    public void getCompanyJob(@PathVariable int cid,HttpServletResponse response){
+        ResponseUtils.write(response,200,"success",jobService.selectJobByCid(cid));
     }
 
 
 
 }
+//    /**
+//     * 按照标签搜索
+//     * @module 招聘
+//     */
+//    @Deprecated
+//    @GetMapping("/search/Tag")
+//    public List<JobDO> getJobByTag(@RequestParam String tags){
+//
+//        return jobService.selectJobByTag(tags);
+//    }
+//
+//    /**
+//     * 按照工作时长搜索
+//     * @module 招聘
+//     */
+//    @Deprecated
+//    @GetMapping("/search/WorkingHour")
+//    public List<JobDO> getJobByWorkingHour(@RequestParam String workingHours){
+//        return jobService.selectJobByWorkTime(workingHours);
+//    }
+//

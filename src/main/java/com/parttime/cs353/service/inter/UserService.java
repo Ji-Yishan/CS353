@@ -3,6 +3,7 @@ package com.parttime.cs353.service.inter;
 
 import com.parttime.cs353.pojo.business.UserDetailBO;
 import com.parttime.cs353.pojo.business.UserExpectationBO;
+import com.parttime.cs353.pojo.business.UserFullDetailBO;
 import com.parttime.cs353.pojo.data.EducationExperienceDO;
 import com.parttime.cs353.pojo.data.ProjectExperienceDO;
 import com.parttime.cs353.pojo.data.UserDO;
@@ -30,5 +31,7 @@ public interface UserService extends UserDetailsService {
     int updateEducationExperience(EducationExperienceDO educationExperienceDO);
     int deleteWorkExperience(int wid);
     int deleteProjectExperience( int pid);
+    int updateFullDetail(UserFullDetailBO userFullDetailBO);
+    UserFullDetailBO getFullDetail(int uid);
 
 }

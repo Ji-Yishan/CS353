@@ -1,7 +1,9 @@
 package com.parttime.cs353.pojo.business;
 
+import com.parttime.cs353.pojo.bean.UserDetailBean;
 import com.parttime.cs353.pojo.data.EducationExperienceDO;
 import com.parttime.cs353.pojo.data.ProjectExperienceDO;
+import com.parttime.cs353.pojo.data.UserDO;
 import com.parttime.cs353.pojo.data.WorkExperienceDO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,9 +20,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserFullDetailBO {
-    private UserDetailBO personalInfo;
+    private UserDetailBean personalInfo;
     private List<ProjectExperienceDO> projectsInfo;
     private EducationExperienceDO schoolInfo;
-    private WorkExperienceDO workInfo;
+    private List<WorkExperienceDO> workInfo;
 
 }

@@ -20,4 +20,5 @@ public interface JobService {
     List<JobDO> selectJobByWorkTime(  String workingHours);
     List<JobBO> selectByCondition(Map<String, Object> map);
     JobDO selectJobById(int jid);
+    List<JobDO> selectJobByCid(int cid);
 }

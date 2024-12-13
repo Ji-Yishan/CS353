@@ -4,8 +4,10 @@ package com.parttime.cs353.service.impl;
 import com.parttime.cs353.config.jwt.SecurityUser;
 import com.parttime.cs353.dao.UserDetailMapper;
 import com.parttime.cs353.dao.UserPasswordMapper;
+import com.parttime.cs353.pojo.bean.UserDetailBean;
 import com.parttime.cs353.pojo.business.UserDetailBO;
 import com.parttime.cs353.pojo.business.UserExpectationBO;
+import com.parttime.cs353.pojo.business.UserFullDetailBO;
 import com.parttime.cs353.pojo.data.EducationExperienceDO;
 import com.parttime.cs353.pojo.data.ProjectExperienceDO;
 import com.parttime.cs353.pojo.data.UserDO;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -93,6 +96,41 @@ public class UserServiceImpl implements UserService {
     @Override
     public int deleteProjectExperience(int pid) {
         return userDetailMapper.deleteProjectExperience(pid);
+    }
+
+    @Override
+    public int updateFullDetail(UserFullDetailBO userFullDetailBO) {
+        UserDetailBean ud=userFullDetailBO.getPersonalInfo();
+        UserDetailBO udt=new UserDetailBO(ud.getUid(),ud.getName(),ud.getStatus(),ud.getGender(),ud.getBirthday());
+        UserExpectationBO ue=new UserExpectationBO(ud.getUid(),ud.getDesireIndustry(),ud.getDesireTag(),ud.getDesiredWorktime(),ud.getSalaryRequirement());
+        Map<String,Object> map=new HashMap<>();
+        map.put("uid",ud.getUid());
+        map.put("advantage",ud.getAdvantage());
+        List<ProjectExperienceDO> pj=userFullDetailBO.getProjectsInfo();
+        EducationExperienceDO ed=userFullDetailBO.getSchoolInfo();
+        List<WorkExperienceDO> wk=userFullDetailBO.getWorkInfo();
+        int i=0;
+        i+=userPasswordMapper.updateUserDetail(udt);
+        i+=userPasswordMapper.updateExpectation(ue);
+        i+=userPasswordMapper.updateUserAdvantage(map);
+        i+=userDetailMapper.updateEducationExperience(ed);
+        for(ProjectExperienceDO p:pj){
+            i+=userDetailMapper.updateProjectExperience(p);
+        }
+        for(WorkExperienceDO w:wk){
+            i+=userDetailMapper.updateWorkExperience(w);
+        }
+        return i;
+    }
+
+    @Override
+    public UserFullDetailBO getFullDetail(int uid) {
+        UserDetailBean userDetailBO=userPasswordMapper.selectUserDetail(uid);
+        List<ProjectExperienceDO> pro=userDetailMapper.selectProjectExperience(uid);
+        EducationExperienceDO ed=userDetailMapper.selectEducationExperience(uid).get(0);
+        List<WorkExperienceDO> wk=userDetailMapper.selectWorkExperience(uid);
+        UserFullDetailBO userFullDetailBO=new UserFullDetailBO(userDetailBO,pro,ed,wk);
+        return userFullDetailBO;
     }
 
     @Override

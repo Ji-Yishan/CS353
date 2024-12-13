@@ -1,8 +1,6 @@
 package com.parttime.cs353.test;
 
 import com.parttime.cs353.pojo.business.UserDetailBO;
-import com.parttime.cs353.pojo.business.UserExpectationBO;
-import com.parttime.cs353.pojo.data.WorkExperienceDO;
 import com.parttime.cs353.service.inter.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +22,12 @@ public class UserDetialTest {
     }
     @Test
     public void updateExpect(){
-        WorkExperienceDO workExperienceDO=new WorkExperienceDO(43,"vdf","et","erte","ert","ert","ert","ert",1);
-        System.out.println(userService.updateWorkExperience(workExperienceDO));
+//        WorkExperienceBO workExperienceDO=new WorkExperienceBO(43,"vdf","et","erte","ert","ert","ert","ert",1);
+//        System.out.println(userService.updateWorkExperience(workExperienceDO));
+    }
+    @Test
+    public void get(){
+        System.out.println(userService.getFullDetail(43));
     }
 
 }

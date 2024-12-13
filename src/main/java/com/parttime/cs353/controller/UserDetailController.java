@@ -2,6 +2,7 @@ package com.parttime.cs353.controller;
 
 import com.parttime.cs353.pojo.business.UserDetailBO;
 import com.parttime.cs353.pojo.business.UserExpectationBO;
+import com.parttime.cs353.pojo.business.UserFullDetailBO;
 import com.parttime.cs353.pojo.data.EducationExperienceDO;
 import com.parttime.cs353.pojo.data.ProjectExperienceDO;
 import com.parttime.cs353.pojo.data.WorkExperienceDO;
@@ -146,4 +147,26 @@ public class UserDetailController {
             ResponseUtils.write(response,400,"error occur");
         }
     }
+    /**
+     * 查看个人简历
+     * @module 大学生
+     */
+    @GetMapping("/information/{uid}")
+    public void getFullDetail(@PathVariable int uid,HttpServletResponse response){
+        ResponseUtils.write(response,200,"success",userService.getFullDetail(uid));
+    }
+    /**
+     * 添加简历
+     * @module 大学生
+     */
+    @PutMapping("/information")
+    public void updateFullDetail(@RequestBody UserFullDetailBO userFullDetailBO,HttpServletResponse response){
+        int i=userService.updateFullDetail(userFullDetailBO);
+        if(i>=0){
+            ResponseUtils.write(response,200,"successful update");
+        }else{
+            ResponseUtils.write(response,400,"error occur");
+        }
+    }
+
 }
