@@ -46,6 +46,11 @@ public class TokenFilter implements Filter {
             "/search/filter",
             "/hello"
     ).collect(Collectors.toSet());
+    private static final Set<String> COMPANY = Stream.of(
+            "/jobG",
+            "/resumepage/company/jobD",
+            "/hello"
+    ).collect(Collectors.toSet());
     private static final Set<String> TYPES = Stream.of(
             "user", "hr","admin","company"
     ).collect(Collectors.toSet());
@@ -72,17 +77,29 @@ public class TokenFilter implements Filter {
                     chain.doFilter(request, response);
                     return;
                 }
+
                 log.info(header);
                 if (header == null || !header.startsWith("Bearer ")) {
                     //如果token的格式错误，则提示用户非法登录
 //                    chain.doFilter(request, response);
                     ResponseUtils.write(res, HttpServletResponse.SC_FORBIDDEN, "用户非法登录！");
+                    return;
                 } else {
                     //如果token的格式正确，则先要获取到token
                     String token = header.replace("Bearer ", "");
                     //使用公钥进行解密然后来验证token是否正确
                     Payload<SecurityUser> payload = JwtUtils.getInfoFromToken(token, publick);
 //                    SecurityUser sysUser = payload.getUserInfo();
+                    if(COMPANY.contains(req.getServletPath())){
+                        if(!JwtUtils.getTokenBody(token,publick).get("type").equals("company")){
+                            ResponseUtils.write(res, HttpServletResponse.SC_FORBIDDEN, "用户无权限！");
+                            log.info("非公司，无权限");
+                            return;
+                        }
+                        log.info("公司，拥有权限");
+                        chain.doFilter(request, response);
+                        return;
+                    }
                     if (payload.getId() != null) {
 //                        UsernamePasswordAuthenticationToken authResult = new UsernamePasswordAuthenticationToken(sysUser.getUsername(), null, sysUser.getAuthorities());
 //                        SecurityContextHolder.getContext().setAuthentication(authResult);

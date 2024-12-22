@@ -1,4 +1,4 @@
-package com.parttime.cs353.pojo.data;
+package com.parttime.cs353.pojo.business;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,15 +7,13 @@ import lombok.NoArgsConstructor;
 /**
  * @Description:
  * @author: Isabella
- * @create: 2024-11-13 22:07
+ * @create: 2024-12-22 19:51
  **/
-@Deprecated
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResumeFileDO {
-    private int rid;
-    private int uid;
-    private String file;
+public class InterviewBO {
     private String name;
+    private int uid;
+    private String state;
 }

@@ -9,6 +9,7 @@ import java.util.List;
  * @author: Isabella
  * @create: 2024-11-13 22:24
  **/
+@Deprecated
 @Mapper
 public interface ResumeMapper {
     int insertResume(ResumeDO resumeDO);

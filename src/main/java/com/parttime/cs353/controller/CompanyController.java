@@ -83,6 +83,8 @@ public class CompanyController {
     public void companyLogin(OtherLoginDO otherLoginDO, HttpServletResponse response){
         CompanyDO companyDO=companyService.selectCompanyByPhone(otherLoginDO.getPhone());
         String pwd=companyDO.getPassword();
+        System.out.println(pwd+" "+otherLoginDO.getPassword());
+        System.out.println(pwd.equals(otherLoginDO.getPassword()));
         if(pwd.equals(otherLoginDO.getPassword())){
             String token="Bearer "+ JwtUtils.generateCompanyTokenExpireInMinutes(companyDO,prop.getPrivateKey(),100);
             response.addHeader("Authorization",  token);

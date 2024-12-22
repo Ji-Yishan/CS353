@@ -13,6 +13,7 @@ import java.util.List;
  * @author: Isabella
  * @create: 2024-11-13 22:49
  **/
+@Deprecated
 @Service
 public class ResumeServiceImpl implements ResumeService {
     @Autowired

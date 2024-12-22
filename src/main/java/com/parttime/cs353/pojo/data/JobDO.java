@@ -37,3 +37,5 @@ public class JobDO {
 
     private String address;
 }
+
+

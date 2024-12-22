@@ -9,6 +9,7 @@ import java.util.List;
  * @author: Isabella
  * @create: 2024-11-13 22:48
  **/
+@Deprecated
 public interface ResumeService {
     int insertResume(ResumeDO resumeDO);
     int deleteResume(int uid);

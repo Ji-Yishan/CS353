@@ -12,6 +12,7 @@ import java.util.List;
  * @author: Isabella
  * @create: 2024-11-13 22:59
  **/
+@Deprecated
 @RestController
 public class ResumeController {
     @Autowired
@@ -35,4 +36,6 @@ public class ResumeController {
     public List<ResumeDO> selectResumeById(@PathVariable int uid) {
         return resumeService.selectResumeById(uid);
     }
+
+
 }

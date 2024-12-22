@@ -1,8 +1,10 @@
 package com.parttime.cs353.service.impl;
 
 import com.parttime.cs353.dao.CompanyPasswordMapper;
+import com.parttime.cs353.dao.InterviewMapper;
 import com.parttime.cs353.dao.JobMapper;
 import com.parttime.cs353.pojo.business.JobBO;
+import com.parttime.cs353.pojo.data.InterviewDO;
 import com.parttime.cs353.pojo.data.JobDO;
 import com.parttime.cs353.service.inter.JobService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,8 @@ public class JobServiceImpl implements JobService {
     private JobMapper jobMapper;
     @Autowired
     private CompanyPasswordMapper companyPasswordMapper;
+    @Autowired
+    private InterviewMapper interviewMapper;
 
     public void setJobMapper(JobMapper jobMapper){
         this.jobMapper=jobMapper;
@@ -35,7 +39,9 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public int addJob(JobDO jobDO) {
-        return jobMapper.addJob(jobDO);
+        int i=0;
+        i+=jobMapper.addJob(jobDO);
+        return i;
     }
 
     @Override
@@ -61,13 +67,17 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public int deleteJob(int jid) {
+    public int deleteJob(int jid,int cid) {
+        int c=jobMapper.selectJobById(jid).getCid();
+        if(c==cid){
+            return jobMapper.deleteJob(jid);
+        }
         return 0;
     }
 
     @Override
     public int updateJob(JobDO jobDO) {
-        return 0;
+        return jobMapper.updateJob(jobDO);
     }
 
     @Override

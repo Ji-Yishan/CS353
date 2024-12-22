@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.parttime.cs353.dao.InterviewMapper">
+
+    <select id="selectInterviewById" parameterType="int" resultType="com.parttime.cs353.pojo.data.InterviewDO">
+        select * from interview where uid=#{uid};
+    </select>
+    <select id="selectInterviewByCid" parameterType="int" resultType="com.parttime.cs353.pojo.data.InterviewDO">
+        select * from interview where cid=#{cid};
+    </select>
+    <select id="selectInterviewByJid" parameterType="int" resultType="com.parttime.cs353.pojo.data.InterviewDO">
+        select * from interview where jid=#{jid};
+    </select>
+
+    <insert id="insertInterview" parameterType="com.parttime.cs353.pojo.data.InterviewDO">
+        INSERT INTO interview ( cid, `jid`,uid)
+        VALUES ( #{cid}, #{jid},#{uid})
+    </insert>
+
+    <delete id="deleteInterview" parameterType="com.parttime.cs353.pojo.data.InterviewDO">
+        DELETE FROM interview WHERE `jid` = #{jid},`uid`=#{uid},`cid`=#{cid}
+    </delete>
+
+    <update id="updateInterview" parameterType="com.parttime.cs353.pojo.data.InterviewDO">
+        update interview
+        <set>
+
+                `state` = #{state},
+
+        </set>
+
+        <where >
+            jid= #{jid} and cid=#{cid} and uid=#{uid}
+        </where>
+    </update>
+</mapper>

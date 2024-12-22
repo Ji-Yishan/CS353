@@ -10,6 +10,7 @@ import java.util.List;
  * @author: Isabella
  * @create: 2024-11-13 21:57
  **/
+@Deprecated
 @Mapper
 public interface ResumeFileMapper {
     int insertResume(ResumeFileDO resumeFileDO);

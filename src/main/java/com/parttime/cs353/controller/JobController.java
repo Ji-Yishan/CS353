@@ -3,11 +3,14 @@ package com.parttime.cs353.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.parttime.cs353.pojo.business.CompanyBO;
+import com.parttime.cs353.pojo.business.InterviewBO;
 import com.parttime.cs353.pojo.business.JobBO;
 import com.parttime.cs353.pojo.data.CompanyDO;
+import com.parttime.cs353.pojo.data.InterviewDO;
 import com.parttime.cs353.pojo.data.JobDO;
 import com.parttime.cs353.pojo.dto.JobDTO;
 import com.parttime.cs353.service.inter.CompanyService;
+import com.parttime.cs353.service.inter.InterviewService;
 import com.parttime.cs353.service.inter.JobService;
 import com.parttime.cs353.utils.ResponseUtils;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,6 +20,7 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +37,8 @@ public class JobController {
     JobService jobService;
     @Autowired
     CompanyService companyService;
+    @Autowired
+    InterviewService interviewService;
     /**
      * 搜索
      * @module 招聘
@@ -118,9 +124,59 @@ public class JobController {
     public void getCompanyJob(@PathVariable int cid,HttpServletResponse response){
         ResponseUtils.write(response,200,"success",jobService.selectJobByCid(cid));
     }
+    /**
+     * 判断工作简历
+     * @module 公司
+     */
+    @PutMapping("/jobC")
+    public void changeState(@RequestBody InterviewDO interviewDO,HttpServletResponse response){
+        int i=interviewService.updateInterview(interviewDO);
+        if(i>0){
+            ResponseUtils.write(response,200,"success");
+        }else{
+            ResponseUtils.write(response,400,"fail to update");
+        }
 
-
-
+    }
+    /**
+     * 修改岗位需求
+     * @module 公司
+     */
+    @PutMapping("/resumepage/company/job")
+    public void updateJob(@RequestBody JobDO jobDO,HttpServletResponse response){
+        int i= jobService.updateJob(jobDO);
+        if(i>0){
+            ResponseUtils.write(response,200,"success");
+        }else{
+            ResponseUtils.write(response,400,"fail to update");
+        }
+    }
+    /**
+     * 查看岗位收到简历
+     * @module 公司
+     */
+    @GetMapping("/jobG")
+    public void getResume(@RequestBody int[] jid,HttpServletResponse response){
+        List<List> job=new ArrayList<>();
+        for(int j:jid){
+            List<InterviewBO> l=interviewService.selectReceivedResume(j);
+            job.add(l);
+        }
+        ResponseUtils.write(response,200,"success",job);
+    }
+    /**
+     * 删除岗位需求
+     * @module 公司
+     */
+    @DeleteMapping("/resumepage/company/jobD")
+    public void deleteJob(@RequestParam int jid,@RequestParam int cid,HttpServletResponse response){
+        int i= jobService.deleteJob(jid,cid);
+        if(i>0){
+            ResponseUtils.write(response,200,"success");
+        }else{
+            ResponseUtils.write(response,400,"fail to delete");
+        }
+    }
 }
 //    /**
 //     * 按照标签搜索

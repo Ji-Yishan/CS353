@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
  * @author: Isabella
  * @create: 2024-11-13 21:36
  **/
+@Deprecated
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

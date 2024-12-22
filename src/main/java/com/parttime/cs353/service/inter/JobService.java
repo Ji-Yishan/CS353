@@ -14,7 +14,7 @@ import java.util.Map;
 public interface JobService {
     int addJob(JobDO jobDO);
     List<JobBO> selectJobByName(String name);
-    int deleteJob(int jid);
+    int deleteJob(int jid,int cid);
     int updateJob(JobDO jobDO);
     List<JobDO> selectJobByTag( String tags);
     List<JobDO> selectJobByWorkTime(  String workingHours);
