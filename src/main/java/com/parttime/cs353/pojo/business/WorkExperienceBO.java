@@ -1,4 +1,4 @@
-package com.parttime.cs353.pojo.data;
+package com.parttime.cs353.pojo.business;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 /**
  * @Description:
  * @author: Isabella
- * @create: 2024-12-02 21:28
+ * @create: 2024-12-23 22:45
  **/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class WorkExperienceDO {
+public class WorkExperienceBO {
     private int uid;
     private String companyName;
     private String industryInvolved;
@@ -20,11 +20,5 @@ public class WorkExperienceDO {
     private String jobTitle;
     private String jobBeginTime;
     private String jobEndTime;
-
-    public WorkExperienceDO(int uid) {
-        this.uid = uid;
-    }
-
     private String jobContent;
-    private int wid;
 }

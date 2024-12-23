@@ -30,7 +30,7 @@ public class CompanyController {
     AdminService adminService;
     /**
      * 公司、管理员登录
-     * @module root
+     * @module 公司
      */
     @PostMapping("/other/login")
     public void login(@RequestBody OtherLoginDO otherLoginDO, HttpServletResponse response){
@@ -43,7 +43,7 @@ public class CompanyController {
     }
     /**
      * 注册公司账号
-     * @module root
+     * @module 公司
      */
     @PostMapping("/company/register")
     public void register(@RequestBody OtherLoginDO otherLoginDO, HttpServletResponse response){
@@ -65,7 +65,7 @@ public class CompanyController {
     }
     /**
      * 公司主页
-     * @module root
+     * @module 公司
      */
     @GetMapping("/details/company/{cid}")
     public void homepage(@PathVariable int cid, HttpServletResponse response){

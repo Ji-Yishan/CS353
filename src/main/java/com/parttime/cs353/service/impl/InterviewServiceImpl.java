@@ -1,16 +1,21 @@
 package com.parttime.cs353.service.impl;
 
 import com.parttime.cs353.dao.InterviewMapper;
+import com.parttime.cs353.dao.JobMapper;
 import com.parttime.cs353.dao.UserPasswordMapper;
 import com.parttime.cs353.pojo.business.InterviewBO;
+import com.parttime.cs353.pojo.business.InterviewStatusBO;
 import com.parttime.cs353.pojo.data.InterviewDO;
+import com.parttime.cs353.pojo.data.JobDO;
 import com.parttime.cs353.service.inter.InterviewService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Description:
@@ -24,6 +29,8 @@ public class InterviewServiceImpl implements InterviewService {
     InterviewMapper interviewMapper;
     @Autowired
     UserPasswordMapper userPasswordMapper;
+    @Autowired
+    JobMapper jobMapper;
 
     public void setInterviewMapper(InterviewMapper interviewMapper) {
         this.interviewMapper = interviewMapper;
@@ -67,6 +74,19 @@ public class InterviewServiceImpl implements InterviewService {
             String name=userPasswordMapper.selectUserDetail(d.getUid()).getName();
             InterviewBO b=new InterviewBO(name,d.getUid(),d.getState());
             res.add(b);
+        }
+        return res;
+    }
+
+    @Override
+    public Set<InterviewStatusBO> selectInterviewStatus(int uid) {
+        Set<InterviewStatusBO> res=new HashSet<>();
+        List<InterviewDO> in=interviewMapper.selectInterviewById(uid);
+        for(InterviewDO i:in){
+            JobDO j=jobMapper.selectJobById(i.getJid());
+            InterviewStatusBO it=new InterviewStatusBO(i.getJid(),
+                    j.getName(),j.getWorkingHours(),j.getSalary(),j.getTags(),i.getState());
+            res.add(it);
         }
         return res;
     }

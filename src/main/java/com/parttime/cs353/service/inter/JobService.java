@@ -21,4 +21,5 @@ public interface JobService {
     List<JobBO> selectByCondition(Map<String, Object> map);
     JobDO selectJobById(int jid);
     List<JobDO> selectJobByCid(int cid);
+
 }

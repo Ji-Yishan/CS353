@@ -1,11 +1,10 @@
 package com.parttime.cs353.controller;
 
-import com.parttime.cs353.pojo.business.UserDetailBO;
-import com.parttime.cs353.pojo.business.UserExpectationBO;
-import com.parttime.cs353.pojo.business.UserFullDetailBO;
+import com.parttime.cs353.pojo.business.*;
 import com.parttime.cs353.pojo.data.EducationExperienceDO;
 import com.parttime.cs353.pojo.data.ProjectExperienceDO;
 import com.parttime.cs353.pojo.data.WorkExperienceDO;
+import com.parttime.cs353.service.inter.InterviewService;
 import com.parttime.cs353.service.inter.UserService;
 import com.parttime.cs353.utils.ResponseUtils;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @Description:
@@ -26,6 +26,8 @@ import java.util.Map;
 public class UserDetailController {
     @Autowired
     UserService userService;
+    @Autowired
+    InterviewService interviewService;
 
 
     /**
@@ -168,5 +170,41 @@ public class UserDetailController {
             ResponseUtils.write(response,400,"error occur");
         }
     }
-
+    /**
+     * 用户简历状态
+     * @module 大学生
+     */
+    @GetMapping("/information/vitae")
+    public void status(@RequestParam int uid,HttpServletResponse response){
+        Set<InterviewStatusBO> in=interviewService.selectInterviewStatus(uid);
+        ResponseUtils.write(response,200,"success",in);
+    }
+    /**
+     * 添加工作经验
+     * @module 大学生
+     */
+    @PostMapping("/information/peopleDA")
+    public void addWorkExperience(@RequestBody WorkExperienceBO workExperienceBO,
+                                  HttpServletResponse response){
+        int i=userService.insertWorkExperience(workExperienceBO);
+        if(i>=0){
+            ResponseUtils.write(response,200,"successful insert");
+        }else{
+            ResponseUtils.write(response,400,"error occur");
+        }
+    }
+    /**
+     * 添加项目经验
+     * @module 大学生
+     */
+    @PostMapping("/information/peopleEA")
+    public void addProjectExperience(@RequestBody ProjectExperienceBO projectExperienceBO,
+                                  HttpServletResponse response){
+        int i=userService.insertProjectExperience(projectExperienceBO);
+        if(i>=0){
+            ResponseUtils.write(response,200,"successful insert");
+        }else{
+            ResponseUtils.write(response,400,"error occur");
+        }
+    }
 }

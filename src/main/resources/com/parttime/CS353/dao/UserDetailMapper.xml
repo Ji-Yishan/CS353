@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.parttime.cs353.dao.UserDetailMapper">
-    <insert id="insertWorkExperience" parameterType="int">
+    <insert id="insertWorkExperience" parameterType="com.parttime.cs353.pojo.data.WorkExperienceDO" useGeneratedKeys="true" keyProperty="wid">
         insert into workexperience (`uid`)
         values (#{uid});
     </insert>
@@ -45,7 +45,7 @@
         </where>
 
     </update>
-    <insert id="insertProjectExperience" parameterType="int">
+    <insert id="insertProjectExperience" parameterType="com.parttime.cs353.pojo.data.ProjectExperienceDO" useGeneratedKeys="true" keyProperty="wid">
         insert into projectexperience (`uid`)
         values (#{uid});
     </insert>

@@ -14,11 +14,11 @@ import java.util.List;
  **/
 @Mapper
 public interface UserDetailMapper {
-    int insertWorkExperience(@Param("uid")int uid);
+    int insertWorkExperience(WorkExperienceDO workExperienceDO);
     List<WorkExperienceDO> selectWorkExperience(@Param("uid")int uid);
     int deleteWorkExperience(@Param("wid") int wid);
     int updateWorkExperience(WorkExperienceDO workExperienceDO);
-    int insertProjectExperience(@Param("uid")int uid);
+    int insertProjectExperience(ProjectExperienceDO projectExperienceDO);
     List<ProjectExperienceDO> selectProjectExperience(@Param("uid")int uid);
     int deleteProjectExperience(@Param("pid") int pid);
     int updateProjectExperience(ProjectExperienceDO projectExperienceDO);

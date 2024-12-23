@@ -5,9 +5,7 @@ import com.parttime.cs353.config.jwt.SecurityUser;
 import com.parttime.cs353.dao.UserDetailMapper;
 import com.parttime.cs353.dao.UserPasswordMapper;
 import com.parttime.cs353.pojo.bean.UserDetailBean;
-import com.parttime.cs353.pojo.business.UserDetailBO;
-import com.parttime.cs353.pojo.business.UserExpectationBO;
-import com.parttime.cs353.pojo.business.UserFullDetailBO;
+import com.parttime.cs353.pojo.business.*;
 import com.parttime.cs353.pojo.data.EducationExperienceDO;
 import com.parttime.cs353.pojo.data.ProjectExperienceDO;
 import com.parttime.cs353.pojo.data.UserDO;
@@ -19,9 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,8 +51,8 @@ public class UserServiceImpl implements UserService {
         if(userPasswordMapper.selectUserByPhone(userLoginDTO.getPhone())==null){
             i+=userPasswordMapper.addUser(userLoginDTO);
             int uid=userPasswordMapper.selectUserByPhone(userLoginDTO.getPhone()).getUid();
-            i+=userDetailMapper.insertWorkExperience(uid);
-            i+=userDetailMapper.insertProjectExperience(uid);
+            i+=userDetailMapper.insertWorkExperience(new WorkExperienceDO(uid));
+            i+=userDetailMapper.insertProjectExperience(new ProjectExperienceDO(uid));
             i+=userDetailMapper.insertEducationExperience(uid);
         }
         return i;
@@ -131,6 +127,34 @@ public class UserServiceImpl implements UserService {
         List<WorkExperienceDO> wk=userDetailMapper.selectWorkExperience(uid);
         UserFullDetailBO userFullDetailBO=new UserFullDetailBO(userDetailBO,pro,ed,wk);
         return userFullDetailBO;
+    }
+
+    @Override
+    public int insertWorkExperience(WorkExperienceBO w) {
+        WorkExperienceDO workExperienceDO=new WorkExperienceDO(w.getUid());
+        int i=userDetailMapper.insertWorkExperience(workExperienceDO);
+        int wid=workExperienceDO.getWid();
+        if(i>0){
+            WorkExperienceDO wo=new WorkExperienceDO(w.getUid(),
+                    w.getCompanyName(),w.getIndustryInvolved(),w.getDepartmentName(),
+                    w.getJobTitle(),w.getJobBeginTime(),w.getJobEndTime(),w.getJobContent(),wid);
+            i+=userDetailMapper.updateWorkExperience(wo);
+        }
+        return i;
+    }
+
+    @Override
+    public int insertProjectExperience(ProjectExperienceBO p) {
+        ProjectExperienceDO projectExperienceDO=new ProjectExperienceDO(p.getUid());
+        int i=userDetailMapper.insertProjectExperience(projectExperienceDO);
+        int pid=projectExperienceDO.getPid();
+        if(i>0){
+            ProjectExperienceDO pr=new ProjectExperienceDO(pid,p.getUid(),
+                    p.getProjectName(),p.getProjectRole(),p.getProjectTimeBegin(),
+                    p.getProjectTimeEnd(),p.getProjectDescription());
+            i+=userDetailMapper.updateProjectExperience(pr);
+        }
+        return i;
     }
 
     @Override

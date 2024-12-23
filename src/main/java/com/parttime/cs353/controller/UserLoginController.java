@@ -28,7 +28,7 @@ public class UserLoginController {
 
     /**
      * 登录
-     * @module root
+     * @module 用户（大学生）
      */
 
     @PostMapping("/login")
@@ -45,7 +45,7 @@ public class UserLoginController {
     }
     /**
      * 注册
-     * @module root
+     * @module 用户（大学生）
      */
     @PostMapping("/register")
     public void register(@RequestBody UserLoginDTO userLoginDTO,HttpServletResponse response){
@@ -65,11 +65,11 @@ public class UserLoginController {
             ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"注册失败");
         }
     }
-    @GetMapping("/hello")
-    public String test(HttpServletResponse response){
-//        ResponseUtils.write(response,200,"成功跨域");
-        return "yeahhhhhhh";
-    }
+//    @GetMapping("/hello")
+//    public String test(HttpServletResponse response){
+////        ResponseUtils.write(response,200,"成功跨域");
+//        return "yeahhhhhhh";
+//    }
 
 
 }
