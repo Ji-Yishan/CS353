@@ -14,7 +14,7 @@
         select * from interview where jid=#{jid};
     </select>
 
-    <insert id="insertInterview" parameterType="com.parttime.cs353.pojo.data.InterviewDO">
+    <insert id="insertInterview" parameterType="com.parttime.cs353.pojo.business.InterviewAddBO">
         INSERT INTO interview ( cid, `jid`,uid)
         VALUES ( #{cid}, #{jid},#{uid})
     </insert>

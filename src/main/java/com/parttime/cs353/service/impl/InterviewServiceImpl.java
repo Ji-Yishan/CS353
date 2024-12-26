@@ -3,6 +3,7 @@ package com.parttime.cs353.service.impl;
 import com.parttime.cs353.dao.InterviewMapper;
 import com.parttime.cs353.dao.JobMapper;
 import com.parttime.cs353.dao.UserPasswordMapper;
+import com.parttime.cs353.pojo.business.InterviewAddBO;
 import com.parttime.cs353.pojo.business.InterviewBO;
 import com.parttime.cs353.pojo.business.InterviewStatusBO;
 import com.parttime.cs353.pojo.data.InterviewDO;
@@ -37,7 +38,7 @@ public class InterviewServiceImpl implements InterviewService {
     }
 
     @Override
-    public int insertInterview(InterviewDO interview) {
+    public int insertInterview(InterviewAddBO interview) {
         return interviewMapper.insertInterview(interview);
     }
 

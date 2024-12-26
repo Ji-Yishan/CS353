@@ -1,5 +1,6 @@
 package com.parttime.cs353.dao;
 
+import com.parttime.cs353.pojo.business.JobAddBO;
 import com.parttime.cs353.pojo.data.JobDO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -13,7 +14,7 @@ import java.util.Map;
  **/
 @Mapper
 public interface JobMapper {
-    int addJob(JobDO jobDO);
+    int addJob(JobAddBO jobAddBO);
 //    List<JobDO> selectJobByName( @Param("name") String name,@Param("pageSize")int pageSize,@Param("offset")int offset);
     List<JobDO> selectJobByName(@Param("name") String name);
     List<JobDO> selectJobByTag( @Param("tags") String tags);

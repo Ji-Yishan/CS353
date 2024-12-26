@@ -1,5 +1,6 @@
 package com.parttime.cs353.dao;
 
+import com.parttime.cs353.pojo.business.InterviewAddBO;
 import com.parttime.cs353.pojo.data.InterviewDO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -13,7 +14,7 @@ import java.util.List;
  **/
 @Mapper
 public interface InterviewMapper {
-    int insertInterview(InterviewDO interview);
+    int insertInterview(InterviewAddBO interview);
     int updateInterview(InterviewDO interview);
     int deleteInterview(InterviewDO interview);
     List<InterviewDO> selectInterviewById(@Param("uid") int uid);

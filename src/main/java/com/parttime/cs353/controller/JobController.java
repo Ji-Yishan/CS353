@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.parttime.cs353.pojo.business.CompanyBO;
 import com.parttime.cs353.pojo.business.InterviewBO;
+import com.parttime.cs353.pojo.business.JobAddBO;
 import com.parttime.cs353.pojo.business.JobBO;
 import com.parttime.cs353.pojo.data.CompanyDO;
 import com.parttime.cs353.pojo.data.InterviewDO;
@@ -175,6 +176,19 @@ public class JobController {
             ResponseUtils.write(response,200,"success");
         }else{
             ResponseUtils.write(response,400,"fail to delete");
+        }
+    }
+    /**
+     * 新增岗位
+     * @module 公司
+     */
+    @PostMapping("/new/company/job")
+    public void addJob(@RequestBody JobAddBO jobAddBO,HttpServletResponse response){
+        int i= jobService.addJob(jobAddBO);
+        if(i>0){
+            ResponseUtils.write(response,200,"success");
+        }else{
+            ResponseUtils.write(response,400,"fail to insert");
         }
     }
 

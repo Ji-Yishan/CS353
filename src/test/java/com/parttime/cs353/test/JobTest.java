@@ -6,6 +6,7 @@ import com.parttime.cs353.dao.CompanyPasswordMapper;
 import com.parttime.cs353.dao.InterviewMapper;
 import com.parttime.cs353.dao.JobMapper;
 import com.parttime.cs353.pojo.business.CompanyBO;
+import com.parttime.cs353.pojo.business.JobAddBO;
 import com.parttime.cs353.pojo.business.JobBO;
 import com.parttime.cs353.pojo.data.CompanyDO;
 import com.parttime.cs353.pojo.data.InterviewDO;
@@ -88,5 +89,10 @@ public class JobTest {
     @Test
     public void deleteJob(){
         System.out.println(jobService.deleteJob(4,1));
+    }
+    @Test
+    public void addJob(){
+        JobAddBO jobAddBO=new JobAddBO("asd","asd","asd","asd","asd","asd","asd","asd",1,"asd",1,"asd");
+        System.out.println(jobService.addJob(jobAddBO));
     }
 }

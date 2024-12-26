@@ -162,13 +162,20 @@ public class UserDetailController {
      * @module 大学生
      */
     @PutMapping("/information")
-    public void updateFullDetail(@RequestBody UserFullDetailBO userFullDetailBO,HttpServletResponse response){
-        int i=userService.updateFullDetail(userFullDetailBO);
+    public void updateFullDetail(@RequestBody InterviewAddBO interviewAddBO,HttpServletResponse response){
+//        int i=userService.updateFullDetail(userFullDetailBO);
+//        if(i>=0){
+//            ResponseUtils.write(response,200,"successful update");
+//        }else{
+//            ResponseUtils.write(response,400,"error occur");
+//        }
+        int i=interviewService.insertInterview(interviewAddBO);
         if(i>=0){
-            ResponseUtils.write(response,200,"successful update");
+            ResponseUtils.write(response,200,"successful insert");
         }else{
             ResponseUtils.write(response,400,"error occur");
         }
+
     }
     /**
      * 用户简历状态

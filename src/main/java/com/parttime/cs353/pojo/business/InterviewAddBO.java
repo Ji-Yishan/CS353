@@ -7,16 +7,13 @@ import lombok.NoArgsConstructor;
 /**
  * @Description:
  * @author: Isabella
- * @create: 2024-12-23 22:10
+ * @create: 2024-12-24 20:50
  **/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class InterviewStatusBO {
+public class InterviewAddBO {
+    private int uid;
+    private int cid;
     private int jid;
-    private String name;
-    private String workingHours;
-    private String salary;
-    private String tags;
-    private String state;
 }

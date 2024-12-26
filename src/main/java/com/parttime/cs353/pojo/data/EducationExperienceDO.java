@@ -20,4 +20,5 @@ public class EducationExperienceDO {
     private String timeBegin;
     private String timeEnd;
     private String experienceInSchool;
+    private String educationBackground;
 }

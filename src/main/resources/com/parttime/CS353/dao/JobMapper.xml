@@ -11,8 +11,8 @@
 
     </select>
 
-    <insert id="addJob" parameterType="com.parttime.cs353.pojo.data.JobDO">
-        INSERT INTO jobs (`name`, tags, `time`, salary, salary_detail, working_hours, requirements, `description`, recruit_num, deadline, cid, address)
+    <insert id="addJob" parameterType="com.parttime.cs353.pojo.business.JobAddBO">
+        INSERT INTO job (`name`, tags, `time`, salary, salaryDetail, workingHours, requirements, `description`, recruitNum, deadline, cid, address)
         VALUES (#{name}, #{tags}, #{time}, #{salary}, #{salaryDetail}, #{workingHours}, #{requirements}, #{description}, #{recruitNum}, #{deadline},  #{cid}, #{address})
     </insert>
 

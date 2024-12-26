@@ -3,6 +3,7 @@ package com.parttime.cs353.service.impl;
 import com.parttime.cs353.dao.CompanyPasswordMapper;
 import com.parttime.cs353.dao.InterviewMapper;
 import com.parttime.cs353.dao.JobMapper;
+import com.parttime.cs353.pojo.business.JobAddBO;
 import com.parttime.cs353.pojo.business.JobBO;
 import com.parttime.cs353.pojo.data.InterviewDO;
 import com.parttime.cs353.pojo.data.JobDO;
@@ -38,9 +39,9 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public int addJob(JobDO jobDO) {
+    public int addJob(JobAddBO jobAddBO) {
         int i=0;
-        i+=jobMapper.addJob(jobDO);
+        i+=jobMapper.addJob(jobAddBO);
         return i;
     }
 

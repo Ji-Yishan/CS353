@@ -39,7 +39,7 @@ public class UserLoginController {
             String token="Bearer "+JwtUtils.generateTokenExpireInMinutes(userDO,prop.getPrivateKey(),100);
             response.addHeader("Authorization",  token);
             log.info("返回token："+token);
-            ResponseUtils.write(response,200,"成功登录");
+            ResponseUtils.write(response,200,"成功登录",token);
         }
         ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"用户登录验证失败");
     }
@@ -58,7 +58,7 @@ public class UserLoginController {
             UserDO userDO=userService.selectUserByPhone(userLoginDTO.getPhone());
             String token="Bearer "+JwtUtils.generateTokenExpireInMinutes(userDO,prop.getPrivateKey(),100);
             response.addHeader("Authorization",  token);
-            ResponseUtils.write(response,200,"成功注册");
+            ResponseUtils.write(response,200,"成功注册",token);
             log.info("返回token："+token);
         }catch (Exception e){
             log.info(String.valueOf(e));
