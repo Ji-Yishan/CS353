@@ -14,13 +14,13 @@ import lombok.NoArgsConstructor;
 public class FavoriteDO {
     /**
      * uid
-     * @titleName 用户ID
+     * @titleName
      */
 
     private String uid;
     /**
      * jid
-     * @titleName 岗位ID
+     * @titleName
      */
     private String jid;
 

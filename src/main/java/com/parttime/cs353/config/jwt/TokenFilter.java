@@ -40,7 +40,6 @@ public class TokenFilter implements Filter {
             "/login",
             "/other/login",
             "/company/register",
-//            todo 改成正则
             "/search/Job",
             "/search/Company",
             "/search/filter",
@@ -61,7 +60,7 @@ public class TokenFilter implements Filter {
         log.info("token filter begin");
         HttpServletResponse res = (HttpServletResponse) response;
         try {
-            log.info("业务方法执行");
+            log.info("start the internal process");
 
             HttpServletRequest req=(HttpServletRequest) request;
 
@@ -70,9 +69,9 @@ public class TokenFilter implements Filter {
             try {
                 log.info("running JwtVerificationFilter");
                 String header = req.getHeader("Authorization");
-                // 白名单
+                // white list
                 log.info(req.getServletPath());
-                log.info("是否在白名单内："+String.valueOf(WHITE_LIST.contains(req.getServletPath())));
+                log.info("whether this is in the white list："+String.valueOf(WHITE_LIST.contains(req.getServletPath())));
                 if (WHITE_LIST.contains(req.getServletPath())) {
                     chain.doFilter(request, response);
                     return;
@@ -80,23 +79,23 @@ public class TokenFilter implements Filter {
 
                 log.info(header);
                 if (header == null || !header.startsWith("Bearer ")) {
-                    //如果token的格式错误，则提示用户非法登录
+                    //if token in wrong form, inform user invalid login
 //                    chain.doFilter(request, response);
-                    ResponseUtils.write(res, HttpServletResponse.SC_FORBIDDEN, "用户非法登录！");
+                    ResponseUtils.write(res, HttpServletResponse.SC_FORBIDDEN, "invalid login");
                     return;
                 } else {
-                    //如果token的格式正确，则先要获取到token
+                    //if token in correct form, get the token
                     String token = header.replace("Bearer ", "");
-                    //使用公钥进行解密然后来验证token是否正确
+                    //use public key to unwrap the token to verify
                     Payload<SecurityUser> payload = JwtUtils.getInfoFromToken(token, publick);
 //                    SecurityUser sysUser = payload.getUserInfo();
                     if(COMPANY.contains(req.getServletPath())){
                         if(!JwtUtils.getTokenBody(token,publick).get("type").equals("company")){
-                            ResponseUtils.write(res, HttpServletResponse.SC_FORBIDDEN, "用户无权限！");
-                            log.info("非公司，无权限");
+                            ResponseUtils.write(res, HttpServletResponse.SC_FORBIDDEN, "user not authorized");
+                            log.info("not company, unauthorized");
                             return;
                         }
-                        log.info("公司，拥有权限");
+                        log.info("company with authorization");
                         chain.doFilter(request, response);
                         return;
                     }
@@ -105,7 +104,7 @@ public class TokenFilter implements Filter {
 //                        SecurityContextHolder.getContext().setAuthentication(authResult);
                         if(!TYPES.contains(JwtUtils.getTokenBody(token,publick).get("type"))){
                             log.info("type error");
-                            ResponseUtils.write(res,HttpServletResponse.SC_FORBIDDEN,"用户类型错误");
+                            ResponseUtils.write(res,HttpServletResponse.SC_FORBIDDEN,"user type error");
                             return;
                         }
                         log.info("valid token");
@@ -113,12 +112,12 @@ public class TokenFilter implements Filter {
                         return;
 
                     } else {
-                        ResponseUtils.write(res, HttpServletResponse.SC_FORBIDDEN, "用户验证失败！");
+                        ResponseUtils.write(res, HttpServletResponse.SC_FORBIDDEN, "user verification fail");
                         return;
                     }
                 }
             } catch (ExpiredJwtException e) {
-                ResponseUtils.write(res, HttpServletResponse.SC_FORBIDDEN, "请您重新登录！");
+                ResponseUtils.write(res, HttpServletResponse.SC_FORBIDDEN, "please login again");
                 return;
             }
 //            }
@@ -128,7 +127,7 @@ public class TokenFilter implements Filter {
 //            chain.doFilter(request, response);
         } catch (Exception e) {
             log.error("error in token filter!", e);
-            ResponseUtils.write(res, HttpServletResponse.SC_FORBIDDEN, "请您重新登录！");
+            ResponseUtils.write(res, HttpServletResponse.SC_FORBIDDEN, "please login again");
         }
         log.info("token filter end");
     }

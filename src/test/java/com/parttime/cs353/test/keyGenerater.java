@@ -16,9 +16,9 @@ public class keyGenerater {
     @Test
     public void test(){
         SecureRandom secureRandom = new SecureRandom();
-        byte[] key = new byte[64]; //64字节 =512位 secureRandom.nextBytes(key);
-        // 将密钥进行Base64编码以便在JWT中使用
+        byte[] key = new byte[64]; // secureRandom.nextBytes(key);
+        //
         String encodedKey = Base64.getEncoder().encodeToString(key);
-        System.out.println("安全的JWT签名密钥（Base64编码）： " + encodedKey);
+
     }
 }

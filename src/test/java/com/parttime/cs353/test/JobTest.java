@@ -47,11 +47,14 @@ public class JobTest {
 //        params.put("name", "职位");
 //        params.put("pageSize", 5);
 //        params.put("offset", 0);
-        jobMapper.selectJobByCid(1);
+//        jobMapper.selectJobByCid(1);
 //        List<CompanyBO> list=companyService.selectCompanyByName("公司");
 //        for(CompanyBO j:list){
 //            System.out.println(j);
 //        }
+        Map<String,Object> map=new HashMap<>();
+        map.put("workingHours",22);
+        System.out.println(jobService.selectByCondition(map));
     }
 
     @Test

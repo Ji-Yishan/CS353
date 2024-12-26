@@ -38,10 +38,10 @@ public class UserLoginController {
         if(pwd.equals(userLoginDTO.getPassword())){
             String token="Bearer "+JwtUtils.generateTokenExpireInMinutes(userDO,prop.getPrivateKey(),100);
             response.addHeader("Authorization",  token);
-            log.info("返回token："+token);
-            ResponseUtils.write(response,200,"成功登录",token);
+            log.info("token："+token);
+            ResponseUtils.write(response,200,"successful login");
         }
-        ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"用户登录验证失败");
+        ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"user login verification fail");
     }
     /**
      * 注册
@@ -51,18 +51,18 @@ public class UserLoginController {
     public void register(@RequestBody UserLoginDTO userLoginDTO,HttpServletResponse response){
         try {
             if(userService.selectUserByPhone(userLoginDTO.getPhone())!=null){
-                ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"注册失败,账号已存在");
+                ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"fail to register, account exist");
                 return;
             }
             userService.addUser(userLoginDTO);
             UserDO userDO=userService.selectUserByPhone(userLoginDTO.getPhone());
             String token="Bearer "+JwtUtils.generateTokenExpireInMinutes(userDO,prop.getPrivateKey(),100);
             response.addHeader("Authorization",  token);
-            ResponseUtils.write(response,200,"成功注册",token);
-            log.info("返回token："+token);
+            ResponseUtils.write(response,200,"successfully register",token);
+            log.info("token："+token);
         }catch (Exception e){
             log.info(String.valueOf(e));
-            ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"注册失败");
+            ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"fail to register");
         }
     }
 //    @GetMapping("/hello")

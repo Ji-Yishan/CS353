@@ -84,16 +84,16 @@
                 AND `tags` LIKE '%;#{tags};%'
             </if>
             <if test="time!= null">
-                AND `time` LIKE '%#{time}%'
+                AND `time` LIKE CONCAT('%', #{time}, '%')
             </if>
             <if test="salary!= null">
-                AND `salary` LIKE #{salary}
+                AND `salary` LIKE CONCAT('%', #{salary}, '%')
             </if>
             <if test="salaryDetail!= null">
                 AND `salaryDetail` LIKE '%#{salaryDetail}%'
             </if>
             <if test="workingHours!= null">
-                AND `workingHours` LIKE #{workingHours}
+                AND `workingHours` LIKE CONCAT('%', #{workingHours}, '%')
             </if>
             <if test="requirements!= null">
                 AND `requirements` LIKE '%#{requirements}%'

@@ -58,6 +58,7 @@ public class JobServiceImpl implements JobService {
             pageN=list.size()/5+1;
         }else {pageN=list.size()/5;}
         for(JobDO j:list){
+            System.out.println(j.getCid());
             String companyNmae=companyPasswordMapper.selectCompanyById(j.getCid()).getName();
             JobBO jobBO=new JobBO(j.getJid(),j.getName(),j.getTags(),
                     j.getSalary(),j.getRecruitNum(),j.getCid(),companyNmae);
@@ -97,6 +98,7 @@ public class JobServiceImpl implements JobService {
 //        map.put("offset", (page-1)*pageSize);
         List<JobBO> result=new ArrayList<>();
         List<JobDO> list=jobMapper.selectByCondition(map);
+
         int pageN;
         if(list.size()%5!=0){
             pageN=list.size()/5+1;

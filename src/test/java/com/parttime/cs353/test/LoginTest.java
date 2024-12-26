@@ -43,14 +43,13 @@ public class LoginTest {
         UserLoginDTO userLoginDTO=new UserLoginDTO("13199546056","reprehenderit est Excepteur mollit ad","user");
         if(userService.selectUserByPhone(userLoginDTO.getPhone())!=null){
         log.info("already register");
-//            ResponseUtils.write(response, HttpServletResponse.SC_FORBIDDEN,"注册失败,账号已存在");
+
             return;
         }
         userService.addUser(userLoginDTO);
         UserDO userDO=userService.selectUserByPhone(userLoginDTO.getPhone());
         String token="Bearer "+ JwtUtils.generateTokenExpireInMinutes(userDO,prop.getPrivateKey(),100);
-//        response.addHeader("Authorization",  token);
-//        ResponseUtils.write(response,200,"成功注册");
+
         log.info("返回token："+token);
     }
 }

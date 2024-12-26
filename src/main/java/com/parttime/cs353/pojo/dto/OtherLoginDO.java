@@ -16,7 +16,7 @@ public class OtherLoginDO {
     private String phone;
     private String password;
     /**
-     * function description: 这里只有两种type，company和admin
+     * function description: two type here, admin and company
      * @author: Isabella
      * @date: 2024-10-31
      * @Param:

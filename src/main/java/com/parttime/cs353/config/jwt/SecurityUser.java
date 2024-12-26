@@ -43,7 +43,7 @@ public class SecurityUser implements UserDetails {
 
 
     /**
-     * 是否账号已过期
+     * is account expired
      */
     @JsonIgnore
     @Override
@@ -52,7 +52,7 @@ public class SecurityUser implements UserDetails {
     }
 
     /**
-     * 是否账号已被锁
+     * is account locked
      */
     @JsonIgnore
     @Override
@@ -61,7 +61,7 @@ public class SecurityUser implements UserDetails {
     }
 
     /**
-     * 是否凭证已过期
+     * is credit expired
      */
     @JsonIgnore
     @Override
@@ -70,7 +70,7 @@ public class SecurityUser implements UserDetails {
     }
 
     /**
-     * 是否账号已禁用
+     * is account blocked
      */
     @JsonIgnore
     @Override

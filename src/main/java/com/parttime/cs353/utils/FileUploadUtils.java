@@ -31,7 +31,7 @@ public class FileUploadUtils {
                         request.getServerPort()+"/uploadFile"+format+newName;
             }catch (IOException e){
                 e.printStackTrace();
-                return "上传失败";
+                return "fail to upload";
             }
         }
         System.out.println(realPath);

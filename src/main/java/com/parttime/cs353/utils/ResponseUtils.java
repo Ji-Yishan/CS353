@@ -1,7 +1,7 @@
 package com.parttime.cs353.utils;
 
 /**
- * @Description:响应工具类
+ * @Description:
  * @author: Isabella
  * @create: 2024-10-26 16:16
  **/

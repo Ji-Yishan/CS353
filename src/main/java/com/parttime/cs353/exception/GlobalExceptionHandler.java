@@ -14,11 +14,11 @@ import java.nio.file.AccessDeniedException;
 public class GlobalExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public Result accessDeniedException() {
-        return new Result(403, "用户权限不足！", null);
+        return new Result(403, "user unauthorized", null);
     }
 
     @ExceptionHandler(RuntimeException.class)
     public Result serverException() {
-        return new Result(500, "服务出现异常！", null);
+        return new Result(500, "error in server", null);
     }
 }

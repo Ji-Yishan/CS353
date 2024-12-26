@@ -22,7 +22,7 @@ public class RsaKeyProperties {
     private PrivateKey privateKey;
 
     /**
-     * 该方法用于初始化公钥和私钥的内容
+     * use to initialize private and public key
      */
     @PostConstruct
     public void loadRsaKey() throws Exception {

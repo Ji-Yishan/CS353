@@ -37,7 +37,7 @@ public class CompanyController {
         switch (otherLoginDO.getType()){
             case "company": companyLogin(otherLoginDO,response);break;
             case "admin": adminLogin(otherLoginDO,response);break;
-            default: ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"登录失败,类型错误");
+            default: ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"fail to login");
         }
 
     }
@@ -49,18 +49,18 @@ public class CompanyController {
     public void register(@RequestBody OtherLoginDO otherLoginDO, HttpServletResponse response){
         try {
             if(companyService.selectCompanyByPhone(otherLoginDO.getPhone())!=null){
-                ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"注册失败,账号已存在");
+                ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"fail to register, account exist");
                 return;
             }
             companyService.addCompany(otherLoginDO);
             CompanyDO companyDO=companyService.selectCompanyByPhone(otherLoginDO.getPhone());
             String token="Bearer "+JwtUtils.generateCompanyTokenExpireInMinutes(companyDO,prop.getPrivateKey(),100);
             response.addHeader("Authorization",  token);
-            ResponseUtils.write(response,200,"成功注册");
+            ResponseUtils.write(response,200,"successfully register");
 
         }catch (Exception e){
             log.info(String.valueOf(e));
-            ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"公司注册失败");
+            ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"fail register");
         }
     }
     /**
@@ -88,9 +88,9 @@ public class CompanyController {
         if(pwd.equals(otherLoginDO.getPassword())){
             String token="Bearer "+ JwtUtils.generateCompanyTokenExpireInMinutes(companyDO,prop.getPrivateKey(),100);
             response.addHeader("Authorization",  token);
-            ResponseUtils.write(response,200,"成功登录");
+            ResponseUtils.write(response,200,"successful login");
         }
-        ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"公司登录验证失败");
+        ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"login verification fail");
     }
 
     public void adminLogin(OtherLoginDO otherLoginDO, HttpServletResponse response){
@@ -99,8 +99,8 @@ public class CompanyController {
         if(pwd.equals(otherLoginDO.getPassword())){
             String token="Bearer "+ JwtUtils.generateAdminTokenExpireInMinutes(adminDO,prop.getPrivateKey(),100);
             response.addHeader("Authorization",  token);
-            ResponseUtils.write(response,200,"成功登录");
+            ResponseUtils.write(response,200,"successful login");
         }
-        ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"管理员登录验证失败");
+        ResponseUtils.write(response,HttpServletResponse.SC_FORBIDDEN,"administration login fail");
     }
 }

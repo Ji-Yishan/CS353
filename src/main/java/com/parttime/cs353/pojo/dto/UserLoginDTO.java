@@ -17,7 +17,7 @@ public class UserLoginDTO {
     private String phone;
     private String password;
 /**
- * function description: 这里只有两种 type，一个是user另一个是hr
+ * function description: two type here, user and hr
  * @author: Isabella
  * @date: 2024-10-31
  * @Param:
