@@ -110,7 +110,7 @@ public class JobController {
     @GetMapping("/details/job/{jid}")
     public void homepage(@PathVariable int jid,HttpServletResponse response){
         JobDO jobDO=jobService.selectJobById(jid);
-        System.out.println(jobDO);
+//        System.out.println(jobDO);
         if(jobDO.equals(null)){
             ResponseUtils.write(response,404,"no Job found");
             return;
@@ -157,13 +157,13 @@ public class JobController {
      * @module 公司
      */
     @GetMapping("/jobG")
-    public void getResume(@RequestBody int[] jid,HttpServletResponse response){
-        List<List> job=new ArrayList<>();
-        for(int j:jid){
-            List<InterviewBO> l=interviewService.selectReceivedResume(j);
-            job.add(l);
+    public void getResume(@RequestParam int jid,HttpServletResponse response){
+//        System.out.println(jid);
+        List<InterviewBO> l=interviewService.selectReceivedResume(jid);
+        if(l.size()>0){
+            ResponseUtils.write(response,200,"success",l);
         }
-        ResponseUtils.write(response,200,"success",job);
+        ResponseUtils.write(response,404,"not found");
     }
     /**
      * 删除岗位需求
@@ -193,24 +193,4 @@ public class JobController {
     }
 
 }
-//    /**
-//     * 按照标签搜索
-//     * @module 招聘
-//     */
-//    @Deprecated
-//    @GetMapping("/search/Tag")
-//    public List<JobDO> getJobByTag(@RequestParam String tags){
-//
-//        return jobService.selectJobByTag(tags);
-//    }
-//
-//    /**
-//     * 按照工作时长搜索
-//     * @module 招聘
-//     */
-//    @Deprecated
-//    @GetMapping("/search/WorkingHour")
-//    public List<JobDO> getJobByWorkingHour(@RequestParam String workingHours){
-//        return jobService.selectJobByWorkTime(workingHours);
-//    }
-//
+

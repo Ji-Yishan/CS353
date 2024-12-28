@@ -105,6 +105,7 @@ public class TokenFilter implements Filter {
                         if(!TYPES.contains(JwtUtils.getTokenBody(token,publick).get("type"))){
                             log.info("type error");
                             ResponseUtils.write(res,HttpServletResponse.SC_FORBIDDEN,"user type error");
+
                             return;
                         }
                         log.info("valid token");

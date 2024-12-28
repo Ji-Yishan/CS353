@@ -13,6 +13,7 @@ import com.parttime.cs353.pojo.data.InterviewDO;
 import com.parttime.cs353.pojo.data.JobDO;
 import com.parttime.cs353.pojo.dto.JobDTO;
 import com.parttime.cs353.service.inter.CompanyService;
+import com.parttime.cs353.service.inter.InterviewService;
 import com.parttime.cs353.service.inter.JobService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,8 @@ public class JobTest {
     CompanyPasswordMapper companyPasswordMapper;
     @Autowired
     CompanyService companyService;
+    @Autowired
+    InterviewService interviewService;
 
     @Test
     public void selectByName(){
@@ -96,6 +99,7 @@ public class JobTest {
     @Test
     public void addJob(){
         JobAddBO jobAddBO=new JobAddBO("asd","asd","asd","asd","asd","asd","asd","asd",1,"asd",1,"asd");
-        System.out.println(jobService.addJob(jobAddBO));
+//        System.out.println(jobService.addJob(jobAddBO));
+        System.out.println(interviewService.selectReceivedResume(10));
     }
 }

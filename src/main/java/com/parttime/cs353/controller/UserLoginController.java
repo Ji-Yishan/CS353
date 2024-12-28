@@ -36,7 +36,7 @@ public class UserLoginController {
         UserDO userDO=userService.selectUserByPhone(userLoginDTO.getPhone());
         String pwd=userDO.getPassword();
         if(pwd.equals(userLoginDTO.getPassword())){
-            String token="Bearer "+JwtUtils.generateTokenExpireInMinutes(userDO,prop.getPrivateKey(),100);
+            String token="Bearer "+JwtUtils.generateTokenExpireInMinutes(userDO,prop.getPrivateKey(),1000);
             response.addHeader("Authorization",  token);
             log.info("token："+token);
             ResponseUtils.write(response,200,"successful login");

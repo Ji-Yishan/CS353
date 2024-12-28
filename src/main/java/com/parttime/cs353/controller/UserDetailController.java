@@ -101,7 +101,7 @@ public class UserDetailController {
     public void updateProjectExperience(@RequestBody ProjectExperienceDO projectExperienceDO,
                                      HttpServletResponse response){
         int i=userService.updateProjectExperience(projectExperienceDO);
-        if(i>=0){
+        if(i>0){
             ResponseUtils.write(response,200,"successful update");
         }else{
             ResponseUtils.write(response,400,"error occur");
@@ -115,7 +115,7 @@ public class UserDetailController {
     public void updateEducationExperience(@RequestBody EducationExperienceDO educationExperienceDO,
                                         HttpServletResponse response){
         int i=userService.updateEducationExperience(educationExperienceDO);
-        if(i>=0){
+        if(i>0){
             ResponseUtils.write(response,200,"successful update");
         }else{
             ResponseUtils.write(response,400,"error occur");
@@ -129,7 +129,7 @@ public class UserDetailController {
     public void deleteWorkExperience(@RequestParam int uid,@RequestParam int wid,
                                           HttpServletResponse response){
         int i=userService.deleteWorkExperience(wid);
-        if(i>=0){
+        if(i>0){
             ResponseUtils.write(response,200,"successful delete");
         }else{
             ResponseUtils.write(response,400,"error occur");
@@ -143,7 +143,7 @@ public class UserDetailController {
     public void deleteProjectExperience(@RequestParam int uid,@RequestParam int pid,
                                      HttpServletResponse response){
         int i=userService.deleteProjectExperience(pid);
-        if(i>=0){
+        if(i>0){
             ResponseUtils.write(response,200,"successful delete");
         }else{
             ResponseUtils.write(response,400,"error occur");
@@ -170,7 +170,7 @@ public class UserDetailController {
 //            ResponseUtils.write(response,400,"error occur");
 //        }
         int i=interviewService.insertInterview(interviewAddBO);
-        if(i>=0){
+        if(i>0){
             ResponseUtils.write(response,200,"successful insert");
         }else{
             ResponseUtils.write(response,400,"error occur");
@@ -194,7 +194,7 @@ public class UserDetailController {
     public void addWorkExperience(@RequestBody WorkExperienceBO workExperienceBO,
                                   HttpServletResponse response){
         int i=userService.insertWorkExperience(workExperienceBO);
-        if(i>=0){
+        if(i>0){
             ResponseUtils.write(response,200,"successful insert");
         }else{
             ResponseUtils.write(response,400,"error occur");
@@ -208,7 +208,7 @@ public class UserDetailController {
     public void addProjectExperience(@RequestBody ProjectExperienceBO projectExperienceBO,
                                   HttpServletResponse response){
         int i=userService.insertProjectExperience(projectExperienceBO);
-        if(i>=0){
+        if(i>0){
             ResponseUtils.write(response,200,"successful insert");
         }else{
             ResponseUtils.write(response,400,"error occur");

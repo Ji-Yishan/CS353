@@ -2,9 +2,11 @@ package com.parttime.cs353.test;
 
 import com.parttime.cs353.dao.InterviewMapper;
 import com.parttime.cs353.dao.JobMapper;
+import com.parttime.cs353.pojo.business.InterviewBO;
 import com.parttime.cs353.pojo.business.InterviewStatusBO;
 import com.parttime.cs353.pojo.business.ProjectExperienceBO;
 import com.parttime.cs353.pojo.business.UserDetailBO;
+import com.parttime.cs353.pojo.data.EducationExperienceDO;
 import com.parttime.cs353.pojo.data.InterviewDO;
 import com.parttime.cs353.pojo.data.JobDO;
 import com.parttime.cs353.pojo.data.ProjectExperienceDO;
@@ -14,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -62,8 +65,19 @@ public class UserDetialTest {
     }
     @Test
     public void project(){
-        ProjectExperienceBO projectExperienceBO=new ProjectExperienceBO(43,"2","2","2","2","we");
-        System.out.println(userService.insertProjectExperience(projectExperienceBO));
+//        ProjectExperienceBO projectExperienceBO=new ProjectExperienceBO(43,"2","2","2","2","we");
+//        System.out.println(userService.insertProjectExperience(projectExperienceBO));
+        EducationExperienceDO e=new EducationExperienceDO(2,44,"wer","wer","wer","wer","wer","wer");
+        System.out.println(userService.updateEducationExperience(e));
     }
-
+@Test
+    public void test(){
+//    List<List> job=new ArrayList<>();
+//    for(int j:jid){
+//        List<InterviewBO> l=interviewService.selectReceivedResume(j);
+//        job.add(l);
+//    }
+    List<InterviewBO> l=interviewService.selectReceivedResume(10);
+    System.out.println(l);
+}
 }
